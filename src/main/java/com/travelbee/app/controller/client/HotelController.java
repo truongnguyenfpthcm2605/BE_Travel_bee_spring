@@ -32,15 +32,12 @@ public class HotelController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
         Optional<Hotel> hotel = hotelService.findById(id);
-        if (hotel.isPresent()) {
-            return new ResponseEntity<>(hotel.get(), HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
+        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody HotelDTO hotelDTO) {
-        return new ResponseEntity<>(hotelService.save( new Hotel().builder()
+        return new ResponseEntity<>(hotelService.save( Hotel.builder()
                 .title(hotelDTO.getTitle())
                 .description(hotelDTO.getDescription())
                 .images(hotelDTO.getDescription())
@@ -54,27 +51,21 @@ public class HotelController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody HotelDTO hotelDTO, @PathVariable("id") Long id) {
         Optional<Hotel> hotel = hotelService.findById(id);
-        if (hotel.isPresent()) {
-            return new ResponseEntity<>(hotelService.save( hotel.get().builder()
-                    .title(hotelDTO.getTitle())
-                    .description(hotelDTO.getDescription())
-                    .images(hotelDTO.getDescription())
-                    .address(hotelDTO.getAddress())
-                    .phone(hotelDTO.getPhone())
-                    .updatedate(new Date())
-                    .isactive(true)
-                    .account(accountService.findByEmail(hotelDTO.getEmail()).get()).build()),HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(hotelService.save(value.builder()
+                .title(hotelDTO.getTitle())
+                .description(hotelDTO.getDescription())
+                .images(hotelDTO.getDescription())
+                .address(hotelDTO.getAddress())
+                .phone(hotelDTO.getPhone())
+                .updatedate(new Date())
+                .isactive(true)
+                .account(accountService.findByEmail(hotelDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Hotel> hotel = hotelService.findById(id);
-        if (hotel.isPresent()) {
-            return new ResponseEntity<>(hotelService.save(hotel.get().builder().isactive(false).build()),HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(hotelService.save(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/find")

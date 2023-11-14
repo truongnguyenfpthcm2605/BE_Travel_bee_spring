@@ -47,9 +47,9 @@ public class AuthencationController {
     public ResponseEntity<Message> register (@RequestBody Register register){
         // check in exists system
         if(accountService.findByUsername(register.getUsername()).isPresent()){
-            return  new ResponseEntity<>(new Message().builder().status("Username đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return  new ResponseEntity<>(Message.builder().status("Username đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (accountService.findByEmail(register.getEmail()).isPresent()) {
-            return  new ResponseEntity<>(new Message().builder().status("email đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return  new ResponseEntity<>(Message.builder().status("email đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // save in database
         Set<Role> roles = getRoles(register);
@@ -68,7 +68,7 @@ public class AuthencationController {
 
         // return token and register success
         String token = jwtProvider.createToken(new UserPrinciple(account));
-        return  new ResponseEntity<>(new Message().builder().status("Đăng ký thành công").data(token).build(), HttpStatus.OK);
+        return  new ResponseEntity<>(Message.builder().status("Đăng ký thành công").data(token).build(), HttpStatus.OK);
 
     }
 
@@ -84,13 +84,13 @@ public class AuthencationController {
            UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
            String token = jwtProvider.createToken(userPrinciple);
            return  new ResponseEntity<>(
-                   new AccountResponse().builder()
+                   AccountResponse.builder()
                            .fullName(userPrinciple.getFullname())
                            .authorities(userPrinciple.getAuthorities())
                            .email(userPrinciple.getUsername())
                            .token(token).build(), HttpStatus.OK);
        }catch (AuthenticationException exception){
-           return  new ResponseEntity<>(new Message().builder().status("Đăng nhập thất bại").build(), HttpStatus.UNAUTHORIZED);
+           return  new ResponseEntity<>(Message.builder().status("Đăng nhập thất bại").build(), HttpStatus.UNAUTHORIZED);
        }
     }
 
@@ -117,14 +117,14 @@ public class AuthencationController {
                             "      Travel Bee © 2023 All rights re6served. Privacy Policy|T&C|System Status</p>\n" +
                     "  </div>");
         }catch (MessagingException e){
-            return new ResponseEntity<>(new Message().builder().status("Gủi mail thất bại!").build(),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Message.builder().status("Gủi mail thất bại!").build(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(new Message().builder().status("Gủi mail thành công!").build(),HttpStatus.OK);
+        return new ResponseEntity<>(Message.builder().status("Gủi mail thành công!").build(),HttpStatus.OK);
     }
 
     @GetMapping("/denied")
     public ResponseEntity<Message> accessDenied(){
-        return new ResponseEntity<>(new Message().builder().status("Không có quyền truy cập").build(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(Message.builder().status("Không có quyền truy cập").build(), HttpStatus.FORBIDDEN);
     }
 
 
@@ -134,17 +134,18 @@ public class AuthencationController {
         Set<Role> roles = new HashSet<>();
         register.getRoles().forEach(role -> {
             switch (role) {
-                case "ADMIN":
+                case "ADMIN" -> {
                     Role roleAdmin = roleService.findByName(Roles.ADMIN).orElseThrow(() -> new RuntimeException("Role Not found"));
                     roles.add(roleAdmin);
-                    break;
-                case "STAFF":
+                }
+                case "STAFF" -> {
                     Role rolePM = roleService.findByName(Roles.STAFF).orElseThrow(() -> new RuntimeException("Role Not found"));
                     roles.add(rolePM);
-                    break;
-                default:
+                }
+                default -> {
                     Role roleUser = roleService.findByName(Roles.USER).orElseThrow(() -> new RuntimeException("Role Not found"));
                     roles.add(roleUser);
+                }
             }
         });
         return roles;

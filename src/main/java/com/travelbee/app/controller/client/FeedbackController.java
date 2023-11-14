@@ -41,19 +41,19 @@ public class FeedbackController {
                         "        <p style=\"font-style: italic; font-weight: 400;\">" + feedBack.getContent() + "</p>\n" +
                         "    </div>";
                 mailerService.send(Common.EMAIL_ADMIN, Common.TITLE_SEND_FEEDBACK, body);
-                feedbackService.save(new Feedback().builder()
+                feedbackService.save(Feedback.builder()
                         .title(feedBack.getTitle())
                         .content(feedBack.getContent())
                         .images(feedBack.getImages())
                         .isactive(false)
                         .account(account.get())
                         .createdate(new Date()).build());
-                return new ResponseEntity<>(new Message().builder().status("Gửi mail thành công !").build(), HttpStatus.OK);
+                return new ResponseEntity<>(Message.builder().status("Gửi mail thành công !").build(), HttpStatus.OK);
             } catch (MessagingException e) {
-                return new ResponseEntity<>(new Message().builder().status("Gửi mail thất bại !").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(Message.builder().status("Gửi mail thất bại !").build(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<>(new Message().builder().status("Account không tồn tại !").build(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(Message.builder().status("Account không tồn tại !").build(), HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/reply")

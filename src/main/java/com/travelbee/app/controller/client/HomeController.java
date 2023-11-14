@@ -16,7 +16,7 @@ public class HomeController {
 
     @GetMapping("")
     public ResponseEntity<Message> home(){
-        return new ResponseEntity<>(new Message().builder().status("Hello").data("Ok").build(), HttpStatus.OK);
+        return new ResponseEntity<>(Message.builder().status("Hello").data("Ok").build(), HttpStatus.OK);
     }
 
 

@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,7 +65,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(cs -> cs.disable()).cors(cr -> cr.configurationSource(config -> {
+        http.csrf(AbstractHttpConfigurer::disable).cors(cr -> cr.configurationSource(config -> {
                     CorsConfiguration configuration = new CorsConfiguration();
                     configuration.setAllowedOrigins(Collections.singletonList("*"));
                     configuration.setAllowedMethods(List.of("*"));
@@ -76,7 +77,8 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/home/**").permitAll();
                     auth.requestMatchers("/api/v1/auth/**","/swagger-ui.html").permitAll();
                     auth.requestMatchers("/oauth2/authorization/**","/v3/api-docs/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/hotel/**", "/api/v1/tour/**", "/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/hotel/**", "/api/v1/tour/**",
+                            "api/v1/comment/**","/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
                     auth.requestMatchers("/api/v1/admin/**").hasAnyRole(Roles.ADMIN.name());
                     auth.requestMatchers("/api/v1/staff/**").hasAnyRole(Roles.STAFF.name());
                     auth.requestMatchers("/api/v1/feedback/**").authenticated();

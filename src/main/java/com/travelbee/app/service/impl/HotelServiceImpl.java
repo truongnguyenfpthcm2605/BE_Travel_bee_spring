@@ -16,33 +16,39 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@CacheConfig( cacheNames = "hotels" )
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key ="#hotel.id", allEntries = true)
     public Hotel save(Hotel Hotel) {
         return hotelRepository.save(Hotel);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key ="#hotel.id", allEntries = true)
     public Hotel update(Hotel Hotel) {
         return hotelRepository.save(Hotel);
     }
     @Override
+    @Cacheable(key = "#id")
     public Optional<Hotel> findById(Long id) {
         return hotelRepository.findById(id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key ="#id", allEntries = true)
     public void deleteById(Long id) {
         hotelRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable
     public List<Hotel> findAll() {
         return hotelRepository.findAll();
     }

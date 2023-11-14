@@ -27,15 +27,12 @@ public class TransportController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
-        if (transport.isPresent()) {
-            return new ResponseEntity<>(transport.get(), HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
+        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody TransportDTO transportDTO) {
-        return new ResponseEntity<>(transportService.save(new Transport().builder()
+        return new ResponseEntity<>(transportService.save(Transport.builder()
                 .title(transportDTO.getTitle())
                 .phone(transportDTO.getPhone())
                 .address(transportDTO.getAddress())
@@ -50,28 +47,22 @@ public class TransportController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody TransportDTO transportDTO, @PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
-        if (transport.isPresent()) {
-            return new ResponseEntity<>(
-                    transportService.update(transport.get().builder()
-                            .title(transportDTO.getTitle())
-                            .phone(transportDTO.getPhone())
-                            .address(transportDTO.getAddress())
-                            .images(transportDTO.getImages())
-                            .updatedate(new Date())
-                            .description(transportDTO.getDescription())
-                            .isactive(true)
-                            .account(accountService.findByEmail(transportDTO.getEmail()).get()).build()), HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(
+                transportService.update(value.builder()
+                        .title(transportDTO.getTitle())
+                        .phone(transportDTO.getPhone())
+                        .address(transportDTO.getAddress())
+                        .images(transportDTO.getImages())
+                        .updatedate(new Date())
+                        .description(transportDTO.getDescription())
+                        .isactive(true)
+                        .account(accountService.findByEmail(transportDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
-        if (transport.isPresent()) {
-            return new ResponseEntity<>(transportService.update(transport.get().builder().isactive(false).build()), HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(transportService.update(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
 

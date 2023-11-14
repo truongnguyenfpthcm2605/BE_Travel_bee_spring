@@ -28,15 +28,12 @@ public class TourController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
         Optional<Tour> tour = tourService.findById(id);
-        if (tour.isPresent()) {
-            return new ResponseEntity<>(tour.get(), HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
+        return tour.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody TourDTO tourDTO) {
-        return new ResponseEntity<>(tourService.save(new Tour().builder()
+        return new ResponseEntity<>(tourService.save(Tour.builder()
                 .title(tourDTO.getTitle())
                 .description(tourDTO.getDescription())
                 .price(tourDTO.getPrice())
@@ -51,34 +48,25 @@ public class TourController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody TourDTO tourDTO, @PathVariable("id") Long id) {
         Optional<Tour> tour = tourService.findById(id);
-        if (tour.isPresent()) {
-            return new ResponseEntity<>(tourService.update(tour.get().builder()
-                    .description(tourDTO.getDescription())
-                    .title(tourDTO.getTitle())
-                    .images(tourDTO.getImages())
-                    .price(tourDTO.getPrice())
-                    .updatedate(new Date())
-                    .account(accountService.findByEmail(tourDTO.getEmail()).get()).build()), HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return tour.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(tourService.update(value.builder()
+                .description(tourDTO.getDescription())
+                .title(tourDTO.getTitle())
+                .images(tourDTO.getImages())
+                .price(tourDTO.getPrice())
+                .updatedate(new Date())
+                .account(accountService.findByEmail(tourDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Tour> tour = tourService.findById(id);
-        if (tour.isPresent()) {
-            return new ResponseEntity<>(tourService.update(tour.get().builder().isactive(false).build()), HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return tour.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(tourService.update(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/view/{id}")
     public ResponseEntity<Object> updateView(@PathVariable("id") Long id) {
         Optional<Tour> tour = tourService.findById(id);
-        if (tour.isPresent()) {
-            return new ResponseEntity<>(tourService.update(tour.get().builder().views(tour.get().getViews() + 1L).build()), HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().build();
+        return tour.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(tourService.update(value.builder().views(value.getViews() + 1L).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
 }
