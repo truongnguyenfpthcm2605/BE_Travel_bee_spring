@@ -1,0 +1,155 @@
+package com.travelbee.app.controller.client;
+
+import com.travelbee.app.dto.request.Login;
+import com.travelbee.app.dto.request.Register;
+import com.travelbee.app.dto.response.AccountResponse;
+import com.travelbee.app.dto.response.Message;
+import com.travelbee.app.enities.Account;
+import com.travelbee.app.enities.Role;
+import com.travelbee.app.model.mail.MailerServiceImpl;
+import com.travelbee.app.security.jwt.JwtProvider;
+import com.travelbee.app.security.userprincal.UserPrinciple;
+import com.travelbee.app.service.impl.AccountServiceImpl;
+import com.travelbee.app.service.impl.RoleServiceImpl;
+import com.travelbee.app.util.Provider;
+import com.travelbee.app.util.Randoms;
+import com.travelbee.app.util.Roles;
+import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+@RestController
+@RequestMapping("api/v1/auth")
+@RequiredArgsConstructor
+public class AuthencationController {
+    private static final String CODE_MAIL = Randoms.randomCodeMail();
+    private final AccountServiceImpl accountService;
+    private final RoleServiceImpl roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
+    private final AuthenticationManager authenticationManager;
+    private final MailerServiceImpl mailerService;
+
+
+    @PostMapping("/register")
+    public ResponseEntity<Message> register (@RequestBody Register register){
+        // check in exists system
+        if(accountService.findByUsername(register.getUsername()).isPresent()){
+            return  new ResponseEntity<>(new Message().builder().status("Username đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } else if (accountService.findByEmail(register.getEmail()).isPresent()) {
+            return  new ResponseEntity<>(new Message().builder().status("email đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // save in database
+        Set<Role> roles = getRoles(register);
+        Account account = Account.builder()
+                .username(register.getUsername())
+                .email(register.getEmail())
+                .password(passwordEncoder.encode(register.getPassword()))
+                .birthday(register.getBirthday())
+                .updatedate(new Date())
+                .providerID(Provider.local.name())
+                .createdate(new Date())
+                .fullname(register.getFullname())
+                .roles(roles)
+                .isactive(true).build();
+        accountService.save(account);
+
+        // return token and register success
+        String token = jwtProvider.createToken(new UserPrinciple(account));
+        return  new ResponseEntity<>(new Message().builder().status("Đăng ký thành công").data(token).build(), HttpStatus.OK);
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Login login){
+       try {
+           // auth system
+           Authentication authentication = authenticationManager.authenticate(
+                   new UsernamePasswordAuthenticationToken(login.getEmail(),login.getPassword())
+           );
+           SecurityContextHolder.getContext().setAuthentication(authentication);
+           // return token and login success
+           UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+           String token = jwtProvider.createToken(userPrinciple);
+           return  new ResponseEntity<>(
+                   new AccountResponse().builder()
+                           .fullName(userPrinciple.getFullname())
+                           .authorities(userPrinciple.getAuthorities())
+                           .email(userPrinciple.getUsername())
+                           .token(token).build(), HttpStatus.OK);
+       }catch (AuthenticationException exception){
+           return  new ResponseEntity<>(new Message().builder().status("Đăng nhập thất bại").build(), HttpStatus.UNAUTHORIZED);
+       }
+    }
+
+    @GetMapping("/oauth2")
+    public ResponseEntity<Object> getAccountOAuth2(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(authentication, HttpStatus.OK);
+    }
+
+    @PostMapping("/gmail")
+    public ResponseEntity<Message> getMail(@RequestParam("email") String mail){
+        try {
+            mailerService.send(mail, "Mail xác thực tài khoản từ Travel Bee",
+                    "  <div style=width:80%; margin:0 auto;text-align: center ;>\n" +
+                            "    <h1 style=color:#080202 ;>TraVel Bee</h1>\n" +
+                            "    <p>Dùng mã này để xác minh địa chỉ email của bạn trên Travel Bee </p>\n" +
+                            "    <p>Xin chào Bạn,Chúng tôi cần xác minh địa chỉ email của bạn để đảm bảo là có thể liên hệ với bạn sau khi xem xét\n" +
+                            "      ID.</p>\n" +
+                            "    <p>Chúng tôi cần xác minh địa chỉ email của bạn để đảm bảo là có thể liên hệ với bạn sau khi xem xét ID.</p>\n" +
+                            "    <h5>Mã xác nhận</h5>"+
+                            "<h2 style=color: #116D6E;>"+ CODE_MAIL + "</h2>"+
+                            "      <br>" +
+                            "    <p style=font-size: 15px;font-weight: 200;>Tin nhắn này được gửi tới bạn theo yêu cầu của Travel Bee.\n" +
+                            "      Travel Bee © 2023 All rights re6served. Privacy Policy|T&C|System Status</p>\n" +
+                    "  </div>");
+        }catch (MessagingException e){
+            return new ResponseEntity<>(new Message().builder().status("Gủi mail thất bại!").build(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(new Message().builder().status("Gủi mail thành công!").build(),HttpStatus.OK);
+    }
+
+    @GetMapping("/denied")
+    public ResponseEntity<Message> accessDenied(){
+        return new ResponseEntity<>(new Message().builder().status("Không có quyền truy cập").build(), HttpStatus.FORBIDDEN);
+    }
+
+
+
+    //check role and get roles
+    private Set<Role> getRoles(Register register) {
+        Set<Role> roles = new HashSet<>();
+        register.getRoles().forEach(role -> {
+            switch (role) {
+                case "ADMIN":
+                    Role roleAdmin = roleService.findByName(Roles.ADMIN).orElseThrow(() -> new RuntimeException("Role Not found"));
+                    roles.add(roleAdmin);
+                    break;
+                case "STAFF":
+                    Role rolePM = roleService.findByName(Roles.STAFF).orElseThrow(() -> new RuntimeException("Role Not found"));
+                    roles.add(rolePM);
+                    break;
+                default:
+                    Role roleUser = roleService.findByName(Roles.USER).orElseThrow(() -> new RuntimeException("Role Not found"));
+                    roles.add(roleUser);
+            }
+        });
+        return roles;
+    }
+
+
+
+}
