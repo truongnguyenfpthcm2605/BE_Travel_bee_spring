@@ -8,6 +8,9 @@ public class Common {
     public static final String TITLE_SEND_FEEDBACK = "Phản Hồi Của Người Dùng";
     public static final String TITLE_REPLY_ADMIN = "Phản hồi của ADMIN";
 
+    public static String providerId;
+    public static String email_OAuth2;
+
     public static String dateFormat(Date date){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return dateFormat.format(date);

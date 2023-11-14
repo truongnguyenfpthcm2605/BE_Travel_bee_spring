@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Message {
-    private String status;
+    private Object status;
     private Object data;
 }

@@ -1,20 +1,15 @@
 package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.HotelDTO;
-import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Hotel;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.HotelServiceImpl;
-import com.travelbee.app.util.InsertDataHotel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController

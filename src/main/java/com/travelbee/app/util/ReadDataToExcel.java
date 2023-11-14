@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertDataHotel {
+public class ReadDataToExcel {
     public static List<Object[]> readExcel(String filePath) throws IOException {
         List<Object[]> objects = new ArrayList<>();
 

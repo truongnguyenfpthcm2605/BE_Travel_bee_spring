@@ -4,6 +4,7 @@ import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Role;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.RoleServiceImpl;
+import com.travelbee.app.util.Common;
 import com.travelbee.app.util.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -68,6 +69,8 @@ public class OAuth2UserDetailService extends DefaultOAuth2UserService {
             // create account
             accountdetail = registerNewOAuth2Userdetail(oAuth2UserRequest,oAuth2Userdetails);
         }
+        Common.email_OAuth2 = accountdetail.getEmail();
+        Common.providerId = accountdetail.getProviderID();
 
         // return account in system
         return new OAuth2UserDetailCustom(
@@ -83,7 +86,7 @@ public class OAuth2UserDetailService extends DefaultOAuth2UserService {
     public Account registerNewOAuth2Userdetail(OAuth2UserRequest oAuth2UserRequest, OAuth2Userdetails oAuth2Userdetails){
         Set<Role> role = new HashSet<>();
         role.add(roleService.findByName(Roles.USER).get());
-        Account account = new Account().builder()
+        Account account = Account.builder()
                 .username(oAuth2Userdetails.getEmail())
                 .email(oAuth2Userdetails.getEmail())
                 .fullname(oAuth2Userdetails.getName())

@@ -15,21 +15,21 @@ import java.util.Base64;
 
 @Service
 public class QRcodeService {
-    private final int WIDTH_QRCODE_IMAGE = 300;
-    private final int HEIGHT_QRCODE_IMAGE = 300;
-    public  String generationQRcode(String data){
+    public String generationQRcode(String data){
         StringBuilder stringBuilder = new StringBuilder();
         if(!data.isEmpty()){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
            try {
                QRCodeWriter qrCodeWriter = new QRCodeWriter();
-               BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, WIDTH_QRCODE_IMAGE,HEIGHT_QRCODE_IMAGE);
+               int HEIGHT_QRCODE_IMAGE = 300;
+               int WIDTH_QRCODE_IMAGE = 300;
+               BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, WIDTH_QRCODE_IMAGE, HEIGHT_QRCODE_IMAGE);
                BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
                ImageIO.write(bufferedImage,"png",byteArrayOutputStream);
                stringBuilder.append("data:image/png;base64,");
                stringBuilder.append(new String(Base64.getEncoder().encode(byteArrayOutputStream.toByteArray())));
            }catch (Exception e){
-               e.printStackTrace();
+               return "Fail";
            }
         }
         return stringBuilder.toString();
