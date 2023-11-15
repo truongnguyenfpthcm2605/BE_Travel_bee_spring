@@ -35,6 +35,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/auth")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class AuthencationController {
     private static final String CODE_MAIL = Randoms.randomCodeMail();
