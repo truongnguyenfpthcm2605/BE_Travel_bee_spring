@@ -23,9 +23,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -111,6 +115,16 @@ public class AuthencationController {
                 .orElseGet(() -> new ResponseEntity<>(Message.builder().status("Login Fail").build(),HttpStatus.BAD_REQUEST));
     }
 
+    @GetMapping("/logout/success")
+    public ResponseEntity<Object> logout(){
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/fail")
+    public ResponseEntity<Object> oauth2Fail(){
+        return ResponseEntity.badRequest().build();
+    }
+
     @PostMapping("/gmail")
     public ResponseEntity<Message> getMail(@RequestParam("email") String mail) {
         try {
@@ -130,7 +144,7 @@ public class AuthencationController {
         } catch (MessagingException e) {
             return new ResponseEntity<>(Message.builder().status("Gủi mail thất bại!").build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(Message.builder().status("Gủi mail thành công!").build(), HttpStatus.OK);
+        return new ResponseEntity<>(Message.builder().status("Gủi mail thành công!").data(CODE_MAIL).build(), HttpStatus.OK);
     }
 
     @GetMapping("/denied")

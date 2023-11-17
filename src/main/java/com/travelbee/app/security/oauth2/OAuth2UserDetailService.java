@@ -49,24 +49,14 @@ public class OAuth2UserDetailService extends DefaultOAuth2UserService {
             return null;
         }
 
-        // create account empty use below
-        Account accountdetail;
-        // find account in database
+        Account accountdetail ;
         Optional<Account> account = accountService.findByUsernameAndProviderID(
                 oAuth2Userdetails.getEmail(),
                 oAuth2UserRequest.getClientRegistration().getRegistrationId());
         // if account exists
         if (account.isPresent()) {
-            // use acountdetail == account in database
-            accountdetail = account.get();
-            // account is not OAuth2 account
-            if (!accountdetail.getProviderID().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId())) {
-                return null;
-            }
-            // update account
-            accountdetail = updateOAuth2Userdetail(accountdetail,oAuth2Userdetails);
+            accountdetail = updateOAuth2Userdetail(account.get(),oAuth2Userdetails);
         }else{
-            // create account
             accountdetail = registerNewOAuth2Userdetail(oAuth2UserRequest,oAuth2Userdetails);
         }
         Common.email_OAuth2 = accountdetail.getEmail();

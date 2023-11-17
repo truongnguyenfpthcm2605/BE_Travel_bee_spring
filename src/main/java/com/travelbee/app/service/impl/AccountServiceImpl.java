@@ -19,33 +19,39 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "accounts")
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#account.id")
     public Account save(Account account) {
         return accountRepository.save(account);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#account.id")
     public Account update(Account account) {
         return accountRepository.save(account);
     }
 
     @Override
+    @Cacheable(key = "#id")
     public Optional<Account> findById(Long id) {
         return accountRepository.findById(id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key= "#id")
     public void deleteById(Long id) {
         accountRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable
     public List<Account> findAll() {
         return accountRepository.findAll();
     }

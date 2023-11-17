@@ -72,12 +72,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/home/**").permitAll();
                     auth.requestMatchers("/api/v1/auth/**","/swagger-ui.html").permitAll();
-                    auth.requestMatchers("/oauth2/authorization/**","/v3/api-docs/**").permitAll();
+                    auth.requestMatchers("/oauth2/authorization/**","/v3/api-docs/**",
+                    "https://accounts.google.com/o/oauth2/v2/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/hotel/**", "/api/v1/tour/**",
                             "api/v1/comment/**","/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
                     auth.requestMatchers("/api/v1/admin/**").hasAnyRole(Roles.ADMIN.name());
                     auth.requestMatchers("/api/v1/staff/**").hasAnyRole(Roles.STAFF.name());
-                    auth.requestMatchers("/api/v1/feedback/**").authenticated();
+                    auth.anyRequest().authenticated();
 
                 })
                 .logout(httpSecurityLogoutConfigurer ->
@@ -92,7 +93,7 @@ public class SecurityConfig {
                                 .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig.baseUri("/oauth2/authorization"))
                                 .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(oAuth2UserDetailService))
                                 .defaultSuccessUrl("/api/v1/auth/oauth2")
-                                .failureUrl("/api/v1/auth/login")
+                                .failureUrl("/api/v1/auth/fail")
                 )
                 .exceptionHandling(ex -> ex.accessDeniedPage("/api/v1/auth/denied"))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -108,6 +109,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+        configuration.addAllowedOrigin("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
