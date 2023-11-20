@@ -39,17 +39,19 @@ public class FeedbackController {
                         "        <h3>Email :" + account.get().getEmail() + " </h3>\n" +
                         "        <h3>Ngày Phản Hồi : " + Common.dateFormat(new Date()) + "</h3>\n" +
                         "        <p style=\"font-style: italic; font-weight: 400;\">" + feedBack.getContent() + "</p>\n" +
+                        "     <img src=\""+feedBack.getImages()+"\" style=\"width: 300px;\" alt=\"\">"+
                         "    </div>";
                 mailerService.send(Common.EMAIL_ADMIN, Common.TITLE_SEND_FEEDBACK, body);
-                feedbackService.save(Feedback.builder()
-                        .title(feedBack.getTitle())
-                        .content(feedBack.getContent())
-                        .images(feedBack.getImages())
-                        .isactive(false)
-                        .account(account.get())
-                        .createdate(new Date()).build());
+                Feedback feedback = new Feedback();
+                feedback.setImages(feedBack.getImages());
+                feedback.setContent(feedBack.getContent());
+                feedback.setIsactive(false);
+                feedback.setTitle(feedBack.getTitle());
+                feedback.setCreatedate(new Date());
+                feedback.setAccount(account.get());
+                feedbackService.save(feedback);
                 return new ResponseEntity<>(Message.builder().status("Gửi mail thành công !").build(), HttpStatus.OK);
-            } catch (MessagingException e) {
+            } catch (Exception e) {
                 return new ResponseEntity<>(Message.builder().status("Gửi mail thất bại !").build(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }

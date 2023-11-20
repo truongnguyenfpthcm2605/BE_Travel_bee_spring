@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "feedbacks")
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepostitory feedbackRepostitory;
@@ -34,17 +35,20 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    @Cacheable(key = "#id")
     public Optional<Feedback> findById(Long id) {
         return feedbackRepostitory.findById(id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#id")
     public void deleteById(Long id) {
         feedbackRepostitory.deleteById(id);
     }
 
     @Override
+    @Cacheable
     public List<Feedback> findAll() {
         return feedbackRepostitory.findAll();
     }

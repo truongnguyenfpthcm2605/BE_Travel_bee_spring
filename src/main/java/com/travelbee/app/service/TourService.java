@@ -12,4 +12,6 @@ public interface TourService {
     List<Tour> findAll();
 
     List<Tour> saveAll(List<Tour> tours);
+
+    List<Tour> findTourOutstanding();
 }

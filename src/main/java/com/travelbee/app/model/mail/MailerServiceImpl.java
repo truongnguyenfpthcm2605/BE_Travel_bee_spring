@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MailerServiceImpl implements MailerService {
     private final JavaMailSender sender;
-    private List<MailModel> list = new ArrayList<>();
+    private final List<MailModel> list = new ArrayList<>();
 
     @Override
     @Async
@@ -48,7 +48,7 @@ public class MailerServiceImpl implements MailerService {
 
     @Override
     public void send(String to, String subject, String body) throws MessagingException {
-        this.send(new MailModel().builder().to(to).subject(subject).content(body).from("travelbee@gmail.com").build());
+        this.send(MailModel.builder().to(to).subject(subject).content(body).from("travelbee@gmail.com").build());
     }
     @Override
     public void queue(MailModel mail) {
@@ -56,7 +56,7 @@ public class MailerServiceImpl implements MailerService {
     }
     @Override
     public void queue(String to, String subject, String body) {
-        this.queue(new MailModel().builder().to(to).subject(subject).content(body).build());
+        this.queue(MailModel.builder().to(to).subject(subject).content(body).build());
     }
 
     @Scheduled(fixedDelay = 1000, initialDelay = 1000)
