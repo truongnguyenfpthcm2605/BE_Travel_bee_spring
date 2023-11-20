@@ -60,7 +60,7 @@ public class AuthencationController {
             return new ResponseEntity<>(Message.builder().status("email đã tồn tai").build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // save in database
-        Set<Role> roles = getRoles(register);
+        Set<Role> roles = getRoles(register.getRoles());
         Account account = Account.builder()
                 .username(register.getUsername())
                 .email(register.getEmail())
@@ -109,19 +109,19 @@ public class AuthencationController {
                 Common.providerId);
         UserPrinciple userPrinciple = new UserPrinciple(account.orElseThrow(() -> new UsernameNotFoundException("User not found")));
         String token = jwtProvider.createToken(userPrinciple);
-        return account.<ResponseEntity<Object>>map( value ->
+        return account.<ResponseEntity<Object>>map(value ->
                         new ResponseEntity<>(AccountResponse.builder().fullName(userPrinciple.getFullname()).email(userPrinciple.getUsername()).token(token)
                                 .authorities(userPrinciple.getAuthorities()).build(), HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(Message.builder().status("Login Fail").build(),HttpStatus.BAD_REQUEST));
+                .orElseGet(() -> new ResponseEntity<>(Message.builder().status("Login Fail").build(), HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping("/logout/success")
-    public ResponseEntity<Object> logout(){
+    public ResponseEntity<Object> logout() {
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/fail")
-    public ResponseEntity<Object> oauth2Fail(){
+    public ResponseEntity<Object> oauth2Fail() {
         return ResponseEntity.badRequest().build();
     }
 
@@ -154,24 +154,22 @@ public class AuthencationController {
 
 
     //check role and get roles
-    private Set<Role> getRoles(Register register) {
+    private Set<Role> getRoles(String role) {
         Set<Role> roles = new HashSet<>();
-        register.getRoles().forEach(role -> {
-            switch (role) {
-                case "ADMIN" -> {
-                    Role roleAdmin = roleService.findByName(Roles.ADMIN).orElseThrow(() -> new RuntimeException("Role Not found"));
-                    roles.add(roleAdmin);
-                }
-                case "STAFF" -> {
-                    Role rolePM = roleService.findByName(Roles.STAFF).orElseThrow(() -> new RuntimeException("Role Not found"));
-                    roles.add(rolePM);
-                }
-                default -> {
-                    Role roleUser = roleService.findByName(Roles.USER).orElseThrow(() -> new RuntimeException("Role Not found"));
-                    roles.add(roleUser);
-                }
+        switch (role) {
+            case "ADMIN" -> {
+                Role roleAdmin = roleService.findByName(Roles.ADMIN).orElseThrow(() -> new RuntimeException("Role Not found"));
+                roles.add(roleAdmin);
             }
-        });
+            case "STAFF" -> {
+                Role rolePM = roleService.findByName(Roles.STAFF).orElseThrow(() -> new RuntimeException("Role Not found"));
+                roles.add(rolePM);
+            }
+            default -> {
+                Role roleUser = roleService.findByName(Roles.USER).orElseThrow(() -> new RuntimeException("Role Not found"));
+                roles.add(roleUser);
+            }
+        };
         return roles;
     }
 

@@ -28,8 +28,4 @@ public class HomeController {
         return new ResponseEntity<>(tourService.findTourOutstanding().subList(0,6),HttpStatus.OK);
     }
 
-
-
-
-
 }

@@ -18,5 +18,5 @@ public class Register {
     private String fullname;
     private String password;
     private Date birthday ;
-    private Set<String> roles;
+    private String roles;
 }
