@@ -26,8 +26,7 @@ public class LocationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
-        Optional<Location> location = locationService.findById(id);
-        return location.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+        return locationService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/save")
@@ -48,21 +47,29 @@ public class LocationController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody LocationDTO locationDTO, @PathVariable("id") Long id) {
         Optional<Location> location = locationService.findById(id);
-        return location.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(locationService.save(value.builder()
-                .title(locationDTO.getTitle())
-                .address(locationDTO.getAddress())
-                .description(locationDTO.getDescription())
-                .images(locationDTO.getImages())
-                .latitude(locationDTO.getLatitude())
-                .longitude(locationDTO.getLongitude())
-                .updatedate(new Date())
-                .account(accountService.findByEmail(locationDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
+        return location.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(locationService.save(Location.builder()
+                        .isactive(value.getIsactive())
+                        .id(value.getId())
+                        .title(locationDTO.getTitle())
+                        .address(locationDTO.getAddress())
+                        .description(locationDTO.getDescription())
+                        .images(locationDTO.getImages())
+                        .latitude(locationDTO.getLatitude())
+                        .longitude(locationDTO.getLongitude())
+                        .updatedate(new Date())
+                        .createdate(value.getCreatedate())
+                        .account(accountService.findByEmail(locationDTO.getEmail()).get()).build()), HttpStatus.OK))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Location> location = locationService.findById(id);
-        return location.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(locationService.save(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
+        if (location.isPresent()) {
+            location.get().setIsactive(false);
+            return new ResponseEntity<>(locationService.update(location.get()), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

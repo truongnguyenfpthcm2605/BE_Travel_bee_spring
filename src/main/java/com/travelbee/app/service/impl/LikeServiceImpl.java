@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "likes")
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
@@ -34,6 +35,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
+    @Cacheable(key = "#id",unless="#result == null")
     public Optional<Likes> findById(Long id) {
         return likeRepository.findById(id);
     }
@@ -45,7 +47,18 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
+    @Cacheable
     public List<Likes> findAll() {
         return likeRepository.findAll();
+    }
+
+    @Override
+    public Long findAllLike(Long id) {
+        return likeRepository.findAllLike(id);
+    }
+
+    @Override
+    public Likes findByAccount(Long accountId) {
+        return likeRepository.findByAccount(accountId);
     }
 }

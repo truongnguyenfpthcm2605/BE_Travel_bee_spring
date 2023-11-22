@@ -26,8 +26,7 @@ public class TransportController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
-        Optional<Transport> transport = transportService.findById(id);
-        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+        return transportService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/save")
@@ -47,22 +46,28 @@ public class TransportController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody TransportDTO transportDTO, @PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
-        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(
-                transportService.update(value.builder()
-                        .title(transportDTO.getTitle())
-                        .phone(transportDTO.getPhone())
-                        .address(transportDTO.getAddress())
-                        .images(transportDTO.getImages())
-                        .updatedate(new Date())
-                        .description(transportDTO.getDescription())
-                        .isactive(true)
-                        .account(accountService.findByEmail(transportDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
+        if(transport.isPresent()){
+            Transport transport1 = transport.get();
+            transport1.setTitle(transportDTO.getTitle());
+            transport1.setPhone(transportDTO.getPhone());
+            transport1.setAddress(transportDTO.getAddress());
+            transport1.setUpdatedate(new Date());
+            transport1.setDescription(transportDTO.getDescription());
+            transport1.setImages(transportDTO.getImages());
+            transport1.setAccount(accountService.findByEmail(transportDTO.getEmail()).get());
+            return new ResponseEntity<>(transportService.update(transport1),HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
-        return transport.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(transportService.update(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
+       if(transport.isPresent()){
+           transport.get().setIsactive(false);
+           return new ResponseEntity<>(transportService.update(transport.get()),HttpStatus.OK);
+       }
+       return ResponseEntity.badRequest().build();
     }
 
 

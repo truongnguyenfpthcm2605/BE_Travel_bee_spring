@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "vouchers")
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
@@ -34,6 +35,7 @@ public class VoucherServiceImpl implements VoucherService {
 
 
     @Override
+    @Cacheable(key = "#id",unless="#result == null")
     public Optional<Voucher> findById(String id) {
         return voucherRepository.findById(id);
     }
@@ -46,7 +48,18 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    @Cacheable
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    @Override
+    public List<Voucher> findByIdOrTitle(String id, String title) {
+        return voucherRepository.findByIdOrTitle("%"+id+"%","%"+title+"%");
+    }
+
+    @Override
+    public List<Voucher> findByActive(Boolean active) {
+        return voucherRepository.findByActive(active);
     }
 }

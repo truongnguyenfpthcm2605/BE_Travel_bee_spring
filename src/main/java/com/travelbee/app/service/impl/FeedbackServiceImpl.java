@@ -35,7 +35,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id",unless="#result == null")
     public Optional<Feedback> findById(Long id) {
         return feedbackRepostitory.findById(id);
     }

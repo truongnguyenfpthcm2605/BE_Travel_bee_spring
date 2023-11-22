@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<Account> findById(Long id) {
         return accountRepository.findById(id);
     }

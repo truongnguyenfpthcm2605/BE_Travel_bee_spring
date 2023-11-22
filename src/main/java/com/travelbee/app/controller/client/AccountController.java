@@ -49,7 +49,7 @@ public class AccountController {
     }
 
     @PostMapping("/changepass")
-    public ResponseEntity<Object> changePassord(@RequestParam("password") String password,
+    public ResponseEntity<Object> changePassword(@RequestParam("password") String password,
                                                 @RequestParam("email") String email,
                                                 @RequestParam("newpass") String newpass) {
         try {

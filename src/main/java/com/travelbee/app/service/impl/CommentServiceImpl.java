@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "comments")
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -34,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
+    @Cacheable(key ="#id",unless="#result == null")
     public Optional<Comment> findById(Long id) {
         return commentRepository.findById(id);
     }
@@ -45,6 +47,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Cacheable
     public List<Comment> findAll() {
         return commentRepository.findAll();
     }

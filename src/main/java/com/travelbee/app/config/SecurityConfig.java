@@ -76,8 +76,8 @@ public class SecurityConfig {
                     "https://accounts.google.com/o/oauth2/v2/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/hotel/**", "/api/v1/tour/**",
                             "api/v1/comment/**","/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
-                    auth.requestMatchers("/api/v1/admin/**").hasAnyRole(Roles.ADMIN.name());
-                    auth.requestMatchers("/api/v1/staff/**").hasAnyRole(Roles.STAFF.name());
+                    auth.requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.name());
+                    auth.requestMatchers("/api/v1/staff/**").hasAnyAuthority(Roles.STAFF.name(), Roles.ADMIN.name());
                     auth.anyRequest().authenticated();
 
                 })

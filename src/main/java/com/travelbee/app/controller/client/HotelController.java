@@ -32,7 +32,7 @@ public class HotelController {
 
     @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody HotelDTO hotelDTO) {
-        return new ResponseEntity<>(hotelService.save( Hotel.builder()
+        return new ResponseEntity<>(hotelService.save(Hotel.builder()
                 .title(hotelDTO.getTitle())
                 .description(hotelDTO.getDescription())
                 .images(hotelDTO.getDescription())
@@ -40,20 +40,22 @@ public class HotelController {
                 .phone(hotelDTO.getPhone())
                 .createdate(new Date())
                 .isactive(true)
-                .account(accountService.findByEmail(hotelDTO.getEmail()).get()).build()),HttpStatus.OK);
+                .account(accountService.findByEmail(hotelDTO.getEmail()).get()).build()), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody HotelDTO hotelDTO, @PathVariable("id") Long id) {
         Optional<Hotel> hotel = hotelService.findById(id);
-        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(hotelService.save(value.builder()
+        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(hotelService.save(Hotel.builder()
+                .id(value.getId())
                 .title(hotelDTO.getTitle())
                 .description(hotelDTO.getDescription())
                 .images(hotelDTO.getDescription())
                 .address(hotelDTO.getAddress())
                 .phone(hotelDTO.getPhone())
                 .updatedate(new Date())
-                .isactive(true)
+                .createdate(value.getCreatedate())
+                .isactive(value.getIsactive())
                 .account(accountService.findByEmail(hotelDTO.getEmail()).get()).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
@@ -67,7 +69,6 @@ public class HotelController {
     public ResponseEntity<Object> findByTitle(@RequestParam("keyword") String keyword) {
         return new ResponseEntity<>(hotelService.findByTitle(keyword), HttpStatus.OK);
     }
-
 
 
 }

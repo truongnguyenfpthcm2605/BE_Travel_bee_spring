@@ -35,7 +35,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelRepository.save(Hotel);
     }
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id",unless="#result == null")
     public Optional<Hotel> findById(Long id) {
         return hotelRepository.findById(id);
     }

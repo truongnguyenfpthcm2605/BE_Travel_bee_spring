@@ -28,11 +28,10 @@ public class CommentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
-        Optional<Comment> comment = commentService.findById(id);
-        return comment.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+        return commentService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody CommentDTO commentDTO) {
         return new ResponseEntity<>(commentService.save(Comment.builder()
                 .content(commentDTO.getContent())
@@ -44,11 +43,12 @@ public class CommentController {
         );
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@RequestBody CommentDTO commentDTO, @PathVariable("id") Long id) {
         Optional<Comment> comment = commentService.findById(id);
         return comment.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(
-                commentService.update(value.builder()
+                commentService.update(Comment.builder()
+                        .id(value.getId())
                         .content(commentDTO.getContent())
                         .image(commentDTO.getImage())
                         .createdate(new Date())
@@ -59,9 +59,9 @@ public class CommentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> delete( @PathVariable("id") Long id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Comment> comment = commentService.findById(id);
-        return comment.<ResponseEntity<Object>>map( value -> new ResponseEntity<>(commentService.update(value.builder().isactive(false).build()),HttpStatus.OK))
+        return comment.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(commentService.update(Comment.builder().isactive(false).build()), HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 }

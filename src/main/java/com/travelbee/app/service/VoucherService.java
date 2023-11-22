@@ -11,4 +11,8 @@ public interface VoucherService {
     Optional<Voucher> findById(String id);
     void deleteById(String id);
     List<Voucher> findAll();
+
+    List<Voucher> findByIdOrTitle(String id, String title);
+
+    List<Voucher> findByActive(Boolean active);
 }

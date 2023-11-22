@@ -102,6 +102,7 @@ public class AuthencationController {
         }
     }
 
+
     @GetMapping("/oauth2")
     public ResponseEntity<Object> getAccountOAuth2() {
         Optional<Account> account = accountService.findByUsernameAndProviderID(
