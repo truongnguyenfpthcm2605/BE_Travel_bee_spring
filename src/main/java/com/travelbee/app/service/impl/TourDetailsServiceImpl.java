@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "tourdetails")
 public class TourDetailsServiceImpl implements TourDetailsService {
     private final TourDetailsRepository tourDetailsRepository;
     @Override
@@ -33,6 +34,7 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     }
 
     @Override
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<Tourdetails> findById(Long id) {
         return tourDetailsRepository.findById(id);
     }
@@ -44,6 +46,7 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     }
 
     @Override
+    @Cacheable
     public List<Tourdetails> findAll() {
         return tourDetailsRepository.findAll();
     }

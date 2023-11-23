@@ -62,7 +62,11 @@ public class HotelController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Hotel> hotel = hotelService.findById(id);
-        return hotel.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(hotelService.save(value.builder().isactive(false).build()), HttpStatus.OK)).orElseGet(() -> ResponseEntity.badRequest().build());
+       if(hotel.isPresent()){
+           hotel.get().setIsactive(false);
+           return new ResponseEntity<>(hotelService.update(hotel.get()),HttpStatus.OK);
+       }
+       return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/find")

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "roles")
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
@@ -49,6 +50,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Cacheable(key = "#role.id" ,unless="#result == null")
     public Optional<Role> findByName(Roles name) {
         return roleRepository.findByName(name);
     }

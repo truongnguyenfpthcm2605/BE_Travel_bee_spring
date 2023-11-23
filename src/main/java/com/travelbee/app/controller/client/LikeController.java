@@ -26,8 +26,8 @@ public class LikeController {
     private final LikeServiceImpl likeService;
 
     @GetMapping("/all/{id}")
-    public ResponseEntity<Object> findAllLike(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(likeService.findAllLike(id), HttpStatus.OK);
+    public ResponseEntity<Object> findAllLike(@PathVariable("id") Long tourId) {
+        return new ResponseEntity<>(likeService.findAllLike(tourId), HttpStatus.OK);
     }
 
     @PostMapping("/update")

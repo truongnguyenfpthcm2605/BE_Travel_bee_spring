@@ -61,7 +61,10 @@ public class CommentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Comment> comment = commentService.findById(id);
-        return comment.<ResponseEntity<Object>>map(value -> new ResponseEntity<>(commentService.update(Comment.builder().isactive(false).build()), HttpStatus.OK))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        if(comment.isPresent()){
+            comment.get().setIsactive(false);
+            return new ResponseEntity<>(commentService.update(comment.get()),HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

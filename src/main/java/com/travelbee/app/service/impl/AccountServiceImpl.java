@@ -25,14 +25,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
-    @CacheEvict(key = "#account.id")
+    @CacheEvict(key = "#account.id", allEntries = true)
     public Account save(Account account) {
         return accountRepository.save(account);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
-    @CacheEvict(key = "#account.id")
+    @CacheEvict(key = "#account.id", allEntries = true)
     public Account update(Account account) {
         return accountRepository.save(account);
     }
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
-    @CacheEvict(key= "#id")
+    @CacheEvict(key= "#id", allEntries = true)
     public void deleteById(Long id) {
         accountRepository.deleteById(id);
     }
@@ -57,21 +57,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Cacheable
     public Optional<Account> findByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
 
     @Override
+    @Cacheable
     public Optional<Account> findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
 
     @Override
+    @Cacheable
     public Optional<Account> checkLogin(String email, String password) {
         return accountRepository.checkLogin(email,password);
     }
 
     @Override
+    @Cacheable
     public Optional<Account> findByUsernameAndProviderID(String username, String providerID) {
         return accountRepository.findByUsernameAndProviderID(username,providerID);
     }

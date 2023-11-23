@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "reporttours")
 public class ReportTourServiceImpl implements ReportTourService {
     private final ReportTourRepository repository;
     @Override
@@ -33,6 +34,7 @@ public class ReportTourServiceImpl implements ReportTourService {
 
 
     @Override
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<ReportTour> findById(Long id) {
         return repository.findById(id);
     }
@@ -45,6 +47,7 @@ public class ReportTourServiceImpl implements ReportTourService {
     }
 
     @Override
+    @Cacheable
     public List<ReportTour> findAll() {
         return repository.findAll();
     }

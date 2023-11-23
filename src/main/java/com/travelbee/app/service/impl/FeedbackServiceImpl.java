@@ -24,12 +24,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#feedback.id", allEntries = true)
     public Feedback save(Feedback Feedback) {
         return feedbackRepostitory.save(Feedback);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#feedback.id", allEntries = true)
     public Feedback update(Feedback Feedback) {
         return feedbackRepostitory.save(Feedback);
     }
@@ -42,7 +44,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
-    @CacheEvict(key = "#id")
+    @CacheEvict(key = "#id", allEntries = true)
     public void deleteById(Long id) {
         feedbackRepostitory.deleteById(id);
     }

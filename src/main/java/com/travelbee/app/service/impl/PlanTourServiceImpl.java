@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "plantours")
 public class PlanTourServiceImpl implements PlanTourService {
 
     private final PlanTourRepository planTourRepository;
@@ -33,6 +34,7 @@ public class PlanTourServiceImpl implements PlanTourService {
     }
 
     @Override
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<PlanTour> findById(Long id) {
         return planTourRepository.findById(id);
     }
@@ -44,6 +46,7 @@ public class PlanTourServiceImpl implements PlanTourService {
     }
 
     @Override
+    @Cacheable
     public List<PlanTour> findAll() {
         return planTourRepository.findAll();
     }

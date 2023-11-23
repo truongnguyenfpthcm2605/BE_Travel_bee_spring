@@ -23,12 +23,14 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key= "#voucher.id" , allEntries = true)
     public Voucher save(Voucher Voucher) {
         return voucherRepository.save(Voucher);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key= "#voucher.id" , allEntries = true)
     public Voucher update(Voucher Voucher) {
         return voucherRepository.save(Voucher);
     }
@@ -43,6 +45,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 
     @Override
+    @CacheEvict(key ="#id", allEntries = true)
     public void deleteById(String id) {
         voucherRepository.deleteById(id);
     }
@@ -54,11 +57,13 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    @Cacheable
     public List<Voucher> findByIdOrTitle(String id, String title) {
         return voucherRepository.findByIdOrTitle("%"+id+"%","%"+title+"%");
     }
 
     @Override
+    @Cacheable
     public List<Voucher> findByActive(Boolean active) {
         return voucherRepository.findByActive(active);
     }

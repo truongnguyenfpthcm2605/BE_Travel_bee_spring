@@ -72,18 +72,19 @@ public class FeedbackController {
                         "    <h3>Ngày Phản Hồi : " +
                         Common.dateFormat(fb.getCreatedate()) + "</h3>\n" +
                         "    <p style=\"font-style: italic; font-weight: 400;\">" + fb.getContent() + "</p>\n" +
+                        "     <img src=\""+fb.getImages()+"\" style=\"width: 300px;\" alt=\"\">"+
                         "    <hr>\n" +
                         "    <h2 style=\"color: #606C5D; font-style: italic;\">" + Common.TITLE_REPLY_ADMIN + "</h2>\n" +
                         "    <p style=\"font-style: italic; font-weight: 400;\">" + content + "</p>\n" +
                         "    + \"<h3>Ngày Trả Lời : " + Common.dateFormat(new Date()) + "</h3>\n" +
                         "  </div>";
                 mailerService.send(fb.getAccount().getEmail(), Common.TITLE_REPLY_ADMIN, body);
-                return new ResponseEntity<>(feedbackService.update(fb.builder().isactive(true).build()), HttpStatus.OK);
+                fb.setIsactive(true);
+                return new ResponseEntity<>(feedbackService.update(fb), HttpStatus.OK);
 
             } catch (MessagingException e) {
                 return ResponseEntity.badRequest().build();
             }
-
         }
         return ResponseEntity.notFound().build();
     }

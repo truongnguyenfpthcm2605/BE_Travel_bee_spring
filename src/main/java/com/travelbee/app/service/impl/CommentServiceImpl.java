@@ -23,12 +23,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#comment.id", allEntries = true)
     public Comment save(Comment Comment) {
         return commentRepository.save(Comment);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#comment.id", allEntries = true)
     public Comment update(Comment Comment) {
         return commentRepository.save(Comment);
     }
@@ -42,6 +44,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#id", allEntries = true)
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
     }

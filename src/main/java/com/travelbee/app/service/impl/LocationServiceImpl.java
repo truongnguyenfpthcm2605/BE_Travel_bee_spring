@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "locations")
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
@@ -34,17 +35,20 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<Location> findById(Long id) {
         return locationRepository.findById(id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#id")
     public void deleteById(Long id) {
         locationRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable
     public List<Location> findAll() {
         return locationRepository.findAll();
     }

@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "transports")
 public class TransportServiceImpl implements TransportService {
 
     private final TransportRepository transportRepository;
@@ -35,6 +36,7 @@ public class TransportServiceImpl implements TransportService {
 
 
     @Override
+    @Cacheable(key = "#id" ,unless="#result == null")
     public Optional<Transport> findById(Long id) {
         return transportRepository.findById(id);
     }
@@ -47,6 +49,7 @@ public class TransportServiceImpl implements TransportService {
 
 
     @Override
+    @Cacheable
     public List<Transport> findAll() {
         return transportRepository.findAll();
     }
