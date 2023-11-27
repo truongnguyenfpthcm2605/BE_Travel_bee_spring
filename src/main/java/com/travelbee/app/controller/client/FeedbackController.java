@@ -26,6 +26,16 @@ public class FeedbackController {
     private final AccountServiceImpl accountService;
     private final FeedbackServiceImpl feedbackService;
 
+    @GetMapping("/all")
+    public ResponseEntity<Object> findAll() {
+        return new ResponseEntity<>(feedbackService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable("id") long id) {
+        return feedbackService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     @PostMapping("send-feedback")
     public ResponseEntity<Message> sendFeedback(@RequestBody FeedBackDTO feedBack) {
         Optional<Account> account = accountService.findByEmail(feedBack.getEmail());

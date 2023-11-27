@@ -11,4 +11,5 @@ public interface TourDetailsService {
     Optional<Tourdetails> findById(Long id);
     void deleteById(Long id);
     List<Tourdetails> findAll();
+    Optional<List<Tourdetails>> findByTourDetails(Long tourID);
 }

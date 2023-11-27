@@ -50,4 +50,9 @@ public class PlanTourServiceImpl implements PlanTourService {
     public List<PlanTour> findAll() {
         return planTourRepository.findAll();
     }
+
+    @Override
+    public Optional<List<PlanTour>> findByPlanTour(Long tourID) {
+        return planTourRepository.findByPlanTour(tourID);
+    }
 }

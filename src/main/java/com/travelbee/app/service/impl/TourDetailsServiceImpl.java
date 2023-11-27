@@ -50,4 +50,9 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     public List<Tourdetails> findAll() {
         return tourDetailsRepository.findAll();
     }
+
+    @Override
+    public Optional<List<Tourdetails>> findByTourDetails(Long tourID) {
+        return tourDetailsRepository.findTourDetailsByTourId(tourID);
+    }
 }

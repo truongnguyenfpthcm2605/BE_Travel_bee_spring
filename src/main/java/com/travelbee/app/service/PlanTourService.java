@@ -11,4 +11,5 @@ public interface PlanTourService {
     Optional<PlanTour> findById(Long id);
     void deleteById(Long id);
     List<PlanTour> findAll();
+    Optional<List<PlanTour>> findByPlanTour(Long tourID);
 }

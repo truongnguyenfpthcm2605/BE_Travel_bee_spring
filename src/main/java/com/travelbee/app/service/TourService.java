@@ -1,6 +1,9 @@
 package com.travelbee.app.service;
 
+import com.travelbee.app.enities.PlanTour;
 import com.travelbee.app.enities.Tour;
+import com.travelbee.app.enities.Tourdetails;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +17,8 @@ public interface TourService {
     List<Tour> saveAll(List<Tour> tours);
 
     List<Tour> findTourOutstanding();
+
+
+
+
 }
