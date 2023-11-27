@@ -49,6 +49,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Cacheable(unless="#result == null")
+
     public Optional<Role> findByName(Roles name) {
         return roleRepository.findByName(name);
     }

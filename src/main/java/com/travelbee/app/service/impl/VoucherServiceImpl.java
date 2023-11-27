@@ -49,4 +49,18 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
+
+
+//    @Override
+//    @Cacheable(unless="#result == null")
+//    public List<Voucher> findByIdOrTitle(String id, String title) {
+//        return voucherRepository.findByIdOrTitle("%"+id+"%","%"+title+"%");
+//    }
+//
+//    @Override
+//    @Cacheable(unless="#result == null")
+//    public List<Voucher> findByActive(Boolean active) {
+//        return voucherRepository.findByActive(active);
+//    }
+
 }
