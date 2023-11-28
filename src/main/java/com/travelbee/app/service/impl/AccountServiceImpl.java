@@ -57,25 +57,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public Optional<Account> findByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public Optional<Account> findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public Optional<Account> checkLogin(String email, String password) {
         return accountRepository.checkLogin(email,password);
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public Optional<Account> findByUsernameAndProviderID(String username, String providerID) {
         return accountRepository.findByUsernameAndProviderID(username,providerID);
     }

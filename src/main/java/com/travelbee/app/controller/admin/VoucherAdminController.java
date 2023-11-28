@@ -8,6 +8,7 @@ import com.travelbee.app.service.impl.VoucherServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -34,6 +35,9 @@ public class VoucherAdminController {
 
     @PostMapping("/staff/voucher/save")
     public ResponseEntity<Object> save(@RequestBody VoucherDTO voucherDTO) {
+        if(voucherService.findById(voucherDTO.getId()).isPresent()){
+           return ResponseEntity.badRequest().build();
+        }
         return accountService.findByEmail(voucherDTO.getEmail()).<ResponseEntity<Object>>map(value ->
                 new ResponseEntity<>(voucherService.save(Voucher.builder()
                         .id(voucherDTO.getId())
@@ -69,8 +73,8 @@ public class VoucherAdminController {
 
     }
 
-    @DeleteMapping("/admin/voucher/delete/{id}")
-    public ResponseEntity<Object> deleteById(@PathVariable("id") String id, @RequestParam("email") String email) {
+    @PutMapping("/staff/voucher/active/{id}")
+    public ResponseEntity<Object> active(@PathVariable("id") String id, @RequestParam("email") String email) {
         Optional<Voucher> voucher = voucherService.findById(id);
         Optional<Account> account = accountService.findByEmail(email);
         if (voucher.isPresent()) {
@@ -91,6 +95,12 @@ public class VoucherAdminController {
     @GetMapping("/staff/voucher/active")
     public ResponseEntity<Object> findActive(@RequestParam("active") Boolean active) {
         return new ResponseEntity<>(voucherService.findByActive(active), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/voucher/{id}")
+    public ResponseEntity<Object> deleteById(@PathVariable("id") String id){
+      voucherService.deleteById(id);
+      return ResponseEntity.ok().build();
     }
 
 
