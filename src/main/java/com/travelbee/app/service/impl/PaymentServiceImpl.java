@@ -17,34 +17,40 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "payments")
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#payment.id", allEntries = true)
     public Payment save(Payment Payment) {
         return paymentRepository.save(Payment);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#payment.id", allEntries = true)
     public Payment update(Payment Payment) {
         return paymentRepository.save(Payment);
     }
 
     @Override
+    @Cacheable(key = "#id")
     public Optional<Payment> findById(Long id) {
         return paymentRepository.findById(id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key= "#id", allEntries = true)
     public void deleteById(Long id) {
         paymentRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable
     public List<Payment> findAll() {
         return paymentRepository.findAll();
     }

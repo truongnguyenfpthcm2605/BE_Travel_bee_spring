@@ -28,6 +28,7 @@ public class Orders implements Serializable {
     private String numberphone;
     private Double price;
     private Integer member;
+    private Boolean isactive;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdate;
 
