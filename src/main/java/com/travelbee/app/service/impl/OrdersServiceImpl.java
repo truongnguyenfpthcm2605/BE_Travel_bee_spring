@@ -51,4 +51,9 @@ public class OrdersServiceImpl implements OrdersService {
     public List<Orders> findAll() {
         return ordersRepository.findAll();
     }
+
+    @Override
+    public List<Orders> findticket(String email) {
+        return ordersRepository.findticket(email);
+    }
 }

@@ -1,5 +1,6 @@
 package com.travelbee.app.enities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,7 @@ public class PlanTour implements Serializable {
     @JoinColumn(name = "tourid", referencedColumnName = "id")
     private Tour tour;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "plantour",fetch = FetchType.EAGER)
     private List<Orders> orders;
 }

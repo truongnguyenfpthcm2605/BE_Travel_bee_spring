@@ -45,6 +45,11 @@ public class OrdersController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable("id") Long id){
+        return ordersService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value,HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteTicket(@PathVariable("id") Long id){
         Optional<Orders> orders = ordersService.findById(id);
@@ -53,5 +58,10 @@ public class OrdersController {
             return new ResponseEntity<>(ordersService.update(orders.get()),HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/history/{email}")
+    public ResponseEntity<Object> findAllHistoryTicket(@PathVariable("email") String email){
+        return new ResponseEntity<>(ordersService.findticket(email),HttpStatus.OK);
     }
 }

@@ -11,4 +11,7 @@ public interface OrdersService {
     Optional<Orders> findById(Long id);
     void deleteById(Long id);
     List<Orders> findAll();
+
+    List<Orders> findticket(String email);
+
 }
