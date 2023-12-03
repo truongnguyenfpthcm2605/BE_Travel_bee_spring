@@ -24,12 +24,14 @@ public class TransportServiceImpl implements TransportService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#transport.id" ,allEntries = true)
     public Transport save(Transport Transport) {
         return transportRepository.save(Transport);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#transport.id" ,allEntries = true)
     public Transport update(Transport Transport) {
         return transportRepository.save(Transport);
     }
@@ -43,6 +45,7 @@ public class TransportServiceImpl implements TransportService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#id", allEntries = true)
     public void deleteById(Long id) {
         transportRepository.deleteById(id);
     }

@@ -2,6 +2,7 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Tour;
+import com.travelbee.app.model.mail.MailerServiceImpl;
 import com.travelbee.app.service.impl.TourServiceImpl;
 import com.travelbee.app.service.impl.VoucherServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class HomeController {
 
     private final TourServiceImpl tourService;
     private final VoucherServiceImpl voucherService;
+    private final MailerServiceImpl mailerService;
     @GetMapping("")
     public ResponseEntity<Message> home(){
         return new ResponseEntity<>(Message.builder().status("Hello").data("Ok").build(), HttpStatus.OK);
@@ -36,6 +38,8 @@ public class HomeController {
         return voucherService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
 
 
 }

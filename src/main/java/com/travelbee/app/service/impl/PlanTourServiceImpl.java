@@ -23,12 +23,14 @@ public class PlanTourServiceImpl implements PlanTourService {
     private final PlanTourRepository planTourRepository;
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#plantour.id" ,allEntries = true)
     public PlanTour save(PlanTour PlanTour) {
         return planTourRepository.save(PlanTour);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#plantour.id" ,allEntries = true)
     public PlanTour update(PlanTour PlanTour) {
         return planTourRepository.save(PlanTour);
     }
@@ -41,6 +43,7 @@ public class PlanTourServiceImpl implements PlanTourService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#id" ,allEntries = true)
     public void deleteById(Long id) {
          planTourRepository.deleteById(id);
     }
@@ -52,6 +55,7 @@ public class PlanTourServiceImpl implements PlanTourService {
     }
 
     @Override
+    @Cacheable(unless="#result == null")
     public Optional<List<PlanTour>> findByPlanTour(Long tourID) {
         return planTourRepository.findByPlanTour(tourID);
     }

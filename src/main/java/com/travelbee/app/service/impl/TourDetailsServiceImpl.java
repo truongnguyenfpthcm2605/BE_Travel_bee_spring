@@ -21,14 +21,14 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     private final TourDetailsRepository tourDetailsRepository;
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-
+    @CacheEvict(key = "#tourdetail.id" ,allEntries = true)
     public Tourdetails save(Tourdetails Tourdetails) {
         return tourDetailsRepository.save(Tourdetails) ;
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-
+    @CacheEvict(key = "#tourdetail.id" ,allEntries = true)
     public Tourdetails update(Tourdetails Tourdetails) {
         return tourDetailsRepository.save(Tourdetails) ;
     }
@@ -41,6 +41,7 @@ public class TourDetailsServiceImpl implements TourDetailsService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#id", allEntries = true)
     public void deleteById(Long id) {
         tourDetailsRepository.deleteById(id);
     }
@@ -52,6 +53,7 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     }
 
     @Override
+    @Cacheable(unless="#result == null")
     public Optional<List<Tourdetails>> findByTourDetails(Long tourID) {
         return tourDetailsRepository.findTourDetailsByTourId(tourID);
     }

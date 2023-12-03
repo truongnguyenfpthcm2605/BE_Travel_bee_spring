@@ -24,12 +24,14 @@ public class LocationServiceImpl implements LocationService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#location.id" ,allEntries = true)
     public Location save(Location Location) {
         return locationRepository.save(Location);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#location.id" ,allEntries = true)
     public Location update(Location Location) {
         return locationRepository.save(Location);
     }
@@ -42,7 +44,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
-    @CacheEvict(key = "#id")
+    @CacheEvict(key = "#id" ,allEntries = true)
     public void deleteById(Long id) {
         locationRepository.deleteById(id);
     }

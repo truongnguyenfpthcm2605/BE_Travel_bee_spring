@@ -9,6 +9,6 @@ public class AllException extends   Exception{
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Message> getExResponseEntity(){
-        return new ResponseEntity<>(new Message().builder().status(" System Error!").build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(Message.builder().status(" System Error!").build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

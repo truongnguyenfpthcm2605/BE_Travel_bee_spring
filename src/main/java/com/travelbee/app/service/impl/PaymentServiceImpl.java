@@ -37,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id", unless="#result == null")
     public Optional<Payment> findById(Long id) {
         return paymentRepository.findById(id);
     }

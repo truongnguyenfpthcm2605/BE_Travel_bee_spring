@@ -24,12 +24,14 @@ public class LikeServiceImpl implements LikeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#like.id" ,allEntries = true)
     public Likes save(Likes Likes) {
         return likeRepository.save(Likes);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#like.id" ,allEntries = true)
     public Likes update(Likes Likes) {
         return likeRepository.save(Likes);
     }
@@ -42,6 +44,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
+    @CacheEvict(key = "#id" ,allEntries = true)
     public void deleteById(Long id) {
         likeRepository.deleteById(id);
     }

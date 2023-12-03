@@ -57,13 +57,13 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public List<Voucher> findByIdOrTitle(String id, String title) {
         return voucherRepository.findByIdOrTitle("%"+id+"%","%"+title+"%");
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public List<Voucher> findByActive(Boolean active) {
         return voucherRepository.findByActive(active);
     }

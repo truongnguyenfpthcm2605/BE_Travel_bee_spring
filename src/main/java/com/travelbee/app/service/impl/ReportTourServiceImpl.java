@@ -22,12 +22,14 @@ public class ReportTourServiceImpl implements ReportTourService {
     private final ReportTourRepository repository;
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#reporttour.id" ,allEntries = true)
     public ReportTour save(ReportTour ReportTour) {
         return repository.save(ReportTour);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    @CacheEvict(key = "#reporttour.id" ,allEntries = true)
     public ReportTour update(ReportTour ReportTour) {
         return repository.save(ReportTour);
     }
@@ -41,7 +43,7 @@ public class ReportTourServiceImpl implements ReportTourService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-
+    @CacheEvict(key = "#id" ,allEntries = true)
     public void deleteById(Long id) {
          repository.deleteById(id);
     }
