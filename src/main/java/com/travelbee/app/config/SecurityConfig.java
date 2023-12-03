@@ -78,6 +78,7 @@ public class SecurityConfig {
                             "api/v1/comment/**","/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
                     auth.requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.name());
                     auth.requestMatchers("/api/v1/staff/**").hasAnyAuthority(Roles.STAFF.name(), Roles.ADMIN.name());
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/payment/save").permitAll();
                     auth.anyRequest().authenticated();
 
                 })

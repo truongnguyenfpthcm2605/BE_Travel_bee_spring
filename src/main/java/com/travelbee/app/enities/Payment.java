@@ -24,6 +24,7 @@ public class Payment implements Serializable {
     private String name;
     private String typepayment;
     private String stk;
+    private String content;
     private Double money;
 
     @ManyToOne

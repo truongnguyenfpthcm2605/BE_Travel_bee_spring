@@ -6,11 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentACB {
-    private Integer ID;
+    private String ID;
     private Double AMOUNT;
     private String TYPE;
     private String DESCRIPTION;

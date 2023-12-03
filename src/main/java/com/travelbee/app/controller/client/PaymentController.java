@@ -21,14 +21,19 @@ public class PaymentController {
     private final OrdersServiceImpl ordersService;
 
     @PostMapping("/save")
-    public ResponseEntity<Object> savePayment(@RequestBody PaymentACB paymentACB, @RequestParam("name") String name, @RequestParam("id") Long id) {
+    public ResponseEntity<Object> savePayment(
+            @RequestParam("name") String name,
+            @RequestParam("id") Long id,
+            @RequestParam("money") Double money
+            ,@RequestParam("content") String content) {
         return new ResponseEntity<>(paymentService.save(
                 Payment.builder()
                         .name(name)
                         .createdate(new Date())
                         .typepayment(Banking.ACB.name())
-                        .money(paymentACB.getAMOUNT())
-                        .stk(paymentACB.getDESCRIPTION())
+                        .money(money)
+                        .stk("N/A")
+                        .content(content)
                         .orders(ordersService.findById(id).get()).build()
         ), HttpStatus.OK);
     }
