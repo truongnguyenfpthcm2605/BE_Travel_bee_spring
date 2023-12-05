@@ -1,5 +1,6 @@
 package com.travelbee.app.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,5 +17,9 @@ public class Common {
         return dateFormat.format(date);
     }
 
+    public  static String decimalFormat(Double price){
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(price);
+    }
 
 }

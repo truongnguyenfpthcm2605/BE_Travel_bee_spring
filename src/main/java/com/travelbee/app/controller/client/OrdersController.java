@@ -45,7 +45,7 @@ public class OrdersController {
                         .isactive(true)
                         .account(accountService.findByEmail(ordersDTO.getEmailAccount()).get())
                         .plantour(planTourService.findById(ordersDTO.getPlanTourId()).get()).build());
-        sendmail(orders);
+        sendmailSuccess(orders);
         return new ResponseEntity<>(orders, HttpStatus.OK);
 
     }
@@ -60,6 +60,7 @@ public class OrdersController {
         Optional<Orders> orders = ordersService.findById(id);
         if (orders.isPresent()) {
             orders.get().setIsactive(false);
+            sendMailFailer(orders.get());
             return new ResponseEntity<>(ordersService.update(orders.get()), HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();
@@ -70,7 +71,7 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.findticket(email), HttpStatus.OK);
     }
 
-    private void sendmail(Orders orders) {
+    private void sendmailSuccess(Orders orders) {
         String body = "<div style=\"text-align: center; width: 80%; margin: 0 auto;\">\n" +
                 "        <h1 style=\"color: green;\">" + orders.getPlantour().getTour().getTitle() + "</h1>\n" +
                 "        <img src=\"" + orders.getPlantour().getTour().getImages().split(",")[4] + "\" alt=\"\" style=\"width: 40%; margin:  0 auto; border-radius: 20px;\">\n" +
@@ -112,7 +113,7 @@ public class OrdersController {
                 "                </tr>\n" +
                 "                <tr>\n" +
                 "                    <td>Giá tiền </td>\n" +
-                "                    <td>" + orders.getPrice().toString() + " VND</td>\n" +
+                "                    <td>" + Common.decimalFormat(orders.getPrice()) + " VND</td>\n" +
                 "                </tr>\n" +
                 "                <tr>\n" +
                 "                    <td>Ngày đi </td>\n" +
@@ -124,7 +125,7 @@ public class OrdersController {
                 "                </tr>\n" +
                 "            </tbody>\n" +
                 "        </table>\n" +
-                "        <img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png\" alt=\"\"> <br>\n" +
+                "        <img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png\"  style=\"text-align: center; width: 200px; margin: 0 auto;\" alt=\"\"> <br>\n" +
                 "        <a href=\"http://127.0.0.1:5501/index.html#!/tourdetail/" + orders.getPlantour().getTour().getId() +"\">Vào Website để xem thông tin chi tiết</a>\n" +
                 "        <p style=\"font-style: italic; color: goldenrod;\">Chúc quý khách có một chuyến đi vui vẻ !</p>\n" +
                 "    </div>";
@@ -133,5 +134,70 @@ public class OrdersController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    void sendMailFailer(Orders orders){
+        String body = "<div style=\"text-align: center; width: 80%; margin: 0 auto;\">\n" +
+                " <h1 style=\"color: red;\">Xác Nhận Hủy Vé</h1>" +
+                "        <h1 style=\"color: green;\">" + orders.getPlantour().getTour().getTitle() + "</h1>\n" +
+                "        <img src=\"" + orders.getPlantour().getTour().getImages().split(",")[4] + "\" alt=\"\" style=\"width: 40%; margin:  0 auto; border-radius: 20px;\">\n" +
+                "        <p>" + orders.getPlantour().getTour().getDescription() + "</p>\n" +
+                "        <h1 style=\"color: orangered;\">Thông Tin Vé Tour</h1>\n" +
+                "        <table style=\"width: 100%; border: 2px double orangered;\">\n" +
+                "            \n" +
+                "            <thead>\n" +
+                "                <tr>\n" +
+                "                    <th>Thông Tin</th>\n" +
+                "                    <th>Chi Tiết</th>\n" +
+                "                    \n" +
+                "                </tr>\n" +
+                "            </thead>\n" +
+                "            <tbody>\n" +
+                "                <tr>\n" +
+                "                    <td>Họ và tên</td>\n" +
+                "                    <td>" + orders.getAccount().getFullname() + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Căn cước công dân </td>\n" +
+                "                    <td>" + orders.getCccd() + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Email</td>\n" +
+                "                    <td>" + orders.getEmail() + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Điên thoại </td>\n" +
+                "                    <td>" + orders.getNumberphone() + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Ngày mua </td>\n" +
+                "                    <td>" + Common.dateFormat(orders.getCreatedate()) + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Số người </td>\n" +
+                "                    <td>" + orders.getMember() + " Người</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Giá tiền </td>\n" +
+                "                    <td>" + Common.decimalFormat(orders.getPrice()) + " VND</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Ngày đi </td>\n" +
+                "                    <td>" + Common.dateFormat(orders.getPlantour().getStardate()) + "</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td>Ngày về</td>\n" +
+                "                    <td>" + Common.dateFormat(orders.getPlantour().getEnddate()) + "</td>\n" +
+                "                </tr>\n" +
+                "            </tbody>\n" +
+                "        </table>\n" +
+                " <p style=\"color: red;font-size: 30px;\">Số tiền "+Common.decimalFormat(orders.getPrice())+" VNĐ sẽ được liên hệ và chuyển lợi cho bạn trong thời gian sớm nhất !</p>" +
+                "    </div>";
+        try {
+            mailerService.send(orders.getAccount().getEmail(), "Xác Nhận Hủy Vé", body);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

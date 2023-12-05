@@ -68,14 +68,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).cors( cr -> cr.configurationSource(corsConfigurationSource()))
+        http.csrf(AbstractHttpConfigurer::disable).cors(cr -> cr.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/home/**").permitAll();
-                    auth.requestMatchers("/api/v1/auth/**","/swagger-ui.html").permitAll();
-                    auth.requestMatchers("/oauth2/authorization/**","/v3/api-docs/**",
-                    "https://accounts.google.com/o/oauth2/v2/auth/**").permitAll();
+                    auth.requestMatchers("/api/v1/home/**").permitAll();
+                    auth.requestMatchers("/api/v1/auth/**").permitAll();
+                    auth.requestMatchers("/oauth2/authorization/**",
+                            "https://accounts.google.com/o/oauth2/v2/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/hotel/**", "/api/v1/tour/**",
-                            "api/v1/comment/**","/api/v1/transport/**", "/api/v1/feedback","/api/v1/location/**").permitAll();
+                            "api/v1/comment/**", "/api/v1/transport/**", "/api/v1/feedback", "/api/v1/location/**").permitAll();
                     auth.requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.name());
                     auth.requestMatchers("/api/v1/staff/**").hasAnyAuthority(Roles.STAFF.name(), Roles.ADMIN.name());
                     auth.requestMatchers(HttpMethod.POST, "/api/v1/payment/save").permitAll();
@@ -103,6 +103,7 @@ public class SecurityConfig {
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

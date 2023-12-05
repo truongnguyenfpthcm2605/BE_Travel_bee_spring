@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders,Long> {
 
-    @Query("select  o from Orders o where o.account.email = :email order by o.createdate desc ")
+    @Query("select  o from Orders o where o.account.email = :email and o.isactive = true order by o.createdate desc ")
     List<Orders> findticket( @Param("email") String email);
 }
