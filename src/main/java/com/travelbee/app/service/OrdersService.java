@@ -2,6 +2,7 @@ package com.travelbee.app.service;
 
 import com.travelbee.app.enities.Orders;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +14,7 @@ public interface OrdersService {
     List<Orders> findAll();
 
     List<Orders> findticket(String email);
+    Double TodayRevenue(Date today);
+    Double ticketToday(Date today);
 
 }

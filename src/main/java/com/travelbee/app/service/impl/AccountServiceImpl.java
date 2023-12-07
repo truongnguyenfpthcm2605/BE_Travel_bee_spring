@@ -79,4 +79,10 @@ public class AccountServiceImpl implements AccountService {
     public Optional<Account> findByUsernameAndProviderID(String username, String providerID) {
         return accountRepository.findByUsernameAndProviderID(username,providerID);
     }
+
+    @Override
+    @Cacheable
+    public Integer countAccount() {
+        return accountRepository.countAccount();
+    }
 }

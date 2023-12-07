@@ -17,6 +17,15 @@ public class Common {
         return dateFormat.format(date);
     }
 
+    public static Date stringFormat(String date){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.parse(date);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public  static String decimalFormat(Double price){
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         return decimalFormat.format(price);

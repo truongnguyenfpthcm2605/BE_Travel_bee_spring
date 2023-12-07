@@ -67,4 +67,10 @@ public class TourServiceImpl implements TourService {
         return tourRepository.findTourOutstanding();
     }
 
+    @Override
+    @Cacheable
+    public Integer countTour() {
+        return tourRepository.countAccount();
+    }
+
 }

@@ -20,4 +20,7 @@ public interface AccountRepository  extends JpaRepository<Account,Long> {
 
     @Query("select o from Account o where o.email = :email and o.password = :password ")
     Optional<Account> checkLogin(@Param("email") String email,@Param("password") String password);
+
+    @Query("select count(o) from Account  o ")
+    Integer countAccount();
 }

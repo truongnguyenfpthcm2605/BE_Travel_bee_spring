@@ -18,4 +18,6 @@ public interface AccountService {
 
     Optional<Account> findByUsernameAndProviderID(String username, String providerID);
 
+    Integer countAccount();
+
 }

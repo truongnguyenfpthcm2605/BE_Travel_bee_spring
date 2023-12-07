@@ -12,4 +12,7 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
 
     @Query("select o from Tour  o order by o.views desc ")
     List<Tour> findTourOutstanding();
+
+    @Query("select count(o) from Tour  o")
+    Integer countAccount();
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -55,5 +56,16 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<Orders> findticket(String email) {
         return ordersRepository.findticket(email);
+    }
+
+    @Override
+    @Cacheable
+    public Double TodayRevenue(Date today) {
+        return ordersRepository.todayRevenue(today);
+    }
+
+    @Override
+    public Double ticketToday(Date today) {
+        return ordersRepository.ticketToday(today);
     }
 }

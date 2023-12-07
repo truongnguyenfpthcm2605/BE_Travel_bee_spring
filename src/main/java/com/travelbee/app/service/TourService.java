@@ -18,6 +18,8 @@ public interface TourService {
 
     List<Tour> findTourOutstanding();
 
+    Integer countTour();
+
 
 
 
