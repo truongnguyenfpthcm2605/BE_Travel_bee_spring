@@ -6,6 +6,7 @@ import com.travelbee.app.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ public class AccessServiceImpl  implements AccessService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public List<Access> findAll() {
         return accessRepository.findAll();
     }
@@ -37,4 +38,11 @@ public class AccessServiceImpl  implements AccessService {
     public Optional<Access> findByAccessdate(LocalDate accessdate) {
         return accessRepository.findByAccessdate(accessdate);
     }
+
+    @Override
+    public List<Object[]> getLineChart(LocalDate date, Pageable pageable) {
+        return accessRepository.findLatest7Days(date,pageable);
+    }
+
+
 }

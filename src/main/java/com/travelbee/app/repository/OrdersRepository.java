@@ -20,4 +20,17 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
     @Query("SELECT COUNT(o.id) FROM Orders o WHERE CAST(o.createdate AS DATE) = CAST(:today AS DATE)")
     Double ticketToday(Date today);
 
+    @Query("select count(o) , count(o.isactive) from Orders  o where o.isactive= false ")
+    Long countTicketUhActive();
+    @Query("select count(o) , count(o.isactive) from Orders  o where o.isactive= true ")
+    Long countTicketActive();
+
+    @Query("select  CAST(o.createdate AS DATE), sum(o.price) from Orders " +
+            "o group by CAST(o.createdate AS DATE) order by CAST(o.createdate AS DATE) asc ")
+    List<Object[]> getLineChartMoney();
+
+    @Query("SELECT SUM(o.price), CAST(o.createdate AS DATE), o.plantour FROM Orders o " +
+            "GROUP BY CAST(o.createdate AS DATE), o.plantour")
+    List<Object[]> getTrending();
+
 }

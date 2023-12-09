@@ -1,5 +1,6 @@
 package com.travelbee.app.util;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Randoms {
@@ -12,6 +13,8 @@ public class Randoms {
         }
         return stringBuilder.toString();
     }
+
+
 
 
 

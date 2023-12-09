@@ -14,5 +14,8 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     List<Tour> findTourOutstanding();
 
     @Query("select count(o) from Tour  o")
-    Integer countAccount();
+    Integer countTour();
+
+
+
 }

@@ -17,4 +17,11 @@ public interface OrdersService {
     Double TodayRevenue(Date today);
     Double ticketToday(Date today);
 
+    Long countTicketActive();
+    Long countTicketUhActive();
+
+    List<Object[]> getLineChartMoney();
+
+    List<Object[]> getTrending();
+
 }

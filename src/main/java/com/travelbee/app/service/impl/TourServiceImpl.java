@@ -68,9 +68,9 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    @Cacheable
     public Integer countTour() {
-        return tourRepository.countAccount();
+        return tourRepository.countTour();
     }
+
 
 }

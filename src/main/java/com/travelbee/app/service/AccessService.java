@@ -1,6 +1,7 @@
 package com.travelbee.app.service;
 
 import com.travelbee.app.enities.Access;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -13,6 +14,8 @@ public interface AccessService {
      List<Access> findAll();
 
      Optional<Access> findByAccessdate(LocalDate accessdate);
+
+     List<Object[]> getLineChart(LocalDate date, Pageable pageable);
 
 
 }

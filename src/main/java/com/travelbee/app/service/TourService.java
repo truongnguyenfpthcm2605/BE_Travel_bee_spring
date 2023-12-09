@@ -4,6 +4,7 @@ import com.travelbee.app.enities.PlanTour;
 import com.travelbee.app.enities.Tour;
 import com.travelbee.app.enities.Tourdetails;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public interface TourService {
     List<Tour> findTourOutstanding();
 
     Integer countTour();
+
 
 
 

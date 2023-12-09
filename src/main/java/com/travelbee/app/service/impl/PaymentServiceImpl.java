@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public List<Payment> findAll() {
         return paymentRepository.findAll();
     }

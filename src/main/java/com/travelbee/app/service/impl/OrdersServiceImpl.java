@@ -48,18 +48,19 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public List<Orders> findAll() {
         return ordersRepository.findAll();
     }
 
     @Override
+    @Cacheable(unless="#result == null")
     public List<Orders> findticket(String email) {
         return ordersRepository.findticket(email);
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless="#result == null")
     public Double TodayRevenue(Date today) {
         return ordersRepository.todayRevenue(today);
     }
@@ -67,5 +68,24 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public Double ticketToday(Date today) {
         return ordersRepository.ticketToday(today);
+    }
+
+    @Override
+    public Long countTicketActive() {
+        return ordersRepository.countTicketActive();
+    }
+    @Override
+    public Long countTicketUhActive() {
+        return ordersRepository.countTicketUhActive();
+    }
+
+    @Override
+    public List<Object[]> getLineChartMoney() {
+        return ordersRepository.getLineChartMoney();
+    }
+
+    @Override
+    public List<Object[]> getTrending() {
+        return ordersRepository.getTrending();
     }
 }
