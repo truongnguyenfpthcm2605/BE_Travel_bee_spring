@@ -62,12 +62,13 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(cacheNames = "TourOutstanding", unless = "#result ==null")
     public List<Tour> findTourOutstanding() {
         return tourRepository.findTourOutstanding();
     }
 
     @Override
+    @Cacheable(cacheNames = "countTour", unless = "#result ==null")
     public Integer countTour() {
         return tourRepository.countTour();
     }

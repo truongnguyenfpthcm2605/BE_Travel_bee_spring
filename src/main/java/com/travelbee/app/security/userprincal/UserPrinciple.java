@@ -3,6 +3,7 @@ package com.travelbee.app.security.userprincal;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Role;
 import com.travelbee.app.service.impl.RoleServiceImpl;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ public class UserPrinciple implements UserDetails {
 
     private String username;
     private String password;
+    @Getter
     private String fullname;
     private List<? extends GrantedAuthority> authorities;
 
@@ -25,10 +27,6 @@ public class UserPrinciple implements UserDetails {
         this.password = account.getPassword();
         this.fullname = account.getFullname();
         this.authorities = account.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-    }
-
-    public String getFullname() {
-        return fullname;
     }
 
 

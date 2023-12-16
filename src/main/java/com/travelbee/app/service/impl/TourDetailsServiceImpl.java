@@ -53,7 +53,7 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     }
 
     @Override
-    @Cacheable(unless="#result == null")
+    @Cacheable(cacheNames = "TourDetailsOnTour",unless="#result == null")
     public Optional<List<Tourdetails>> findByTourDetails(Long tourID) {
         return tourDetailsRepository.findTourDetailsByTourId(tourID);
     }
