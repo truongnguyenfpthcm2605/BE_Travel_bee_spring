@@ -77,7 +77,7 @@ public class OrdersServiceImpl implements OrdersService {
         return ordersRepository.countTicketActive();
     }
     @Override
-    @Cacheable(cacheNames ="countTicketUhActive",unless="#result == null")
+    @Cacheable(cacheNames ="UhActive",unless="#result == null")
     public Long countTicketUhActive() {
         return ordersRepository.countTicketUhActive();
     }
