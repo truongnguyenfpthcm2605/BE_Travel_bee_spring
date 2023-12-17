@@ -1,4 +1,4 @@
-package com.travelbee.app.util;
+package com.travelbee.app.model.Qrcode;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -21,9 +21,7 @@ public class QRcodeService {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
            try {
                QRCodeWriter qrCodeWriter = new QRCodeWriter();
-               int HEIGHT_QRCODE_IMAGE = 300;
-               int WIDTH_QRCODE_IMAGE = 300;
-               BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, WIDTH_QRCODE_IMAGE, HEIGHT_QRCODE_IMAGE);
+               BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE,300 , 300);
                BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
                ImageIO.write(bufferedImage,"png",byteArrayOutputStream);
                stringBuilder.append("data:image/png;base64,");

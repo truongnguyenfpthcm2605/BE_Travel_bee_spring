@@ -7,7 +7,7 @@ import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.OrdersServiceImpl;
 import com.travelbee.app.service.impl.PlanTourServiceImpl;
 import com.travelbee.app.util.Common;
-import com.travelbee.app.util.QRcodeService;
+import com.travelbee.app.model.Qrcode.QRcodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

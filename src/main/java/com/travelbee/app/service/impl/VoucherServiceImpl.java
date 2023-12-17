@@ -43,7 +43,6 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-
     @Override
     @CacheEvict(key ="#id", allEntries = true)
     public void deleteById(String id) {
@@ -57,13 +56,13 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Cacheable(unless="#result == null")
+    @Cacheable(cacheNames = "voucherTitle", unless = "#result == null")
     public List<Voucher> findByIdOrTitle(String id, String title) {
         return voucherRepository.findByIdOrTitle("%"+id+"%","%"+title+"%");
     }
 
     @Override
-    @Cacheable(unless="#result == null")
+    @Cacheable(cacheNames = "voucherActive",unless="#result == null")
     public List<Voucher> findByActive(Boolean active) {
         return voucherRepository.findByActive(active);
     }

@@ -63,25 +63,24 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Cacheable(unless="#result == null")
     public Optional<Account> findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
 
     @Override
-    @Cacheable(unless="#result == null")
+    @Cacheable(cacheNames = "checkLogin",unless="#result == null")
     public Optional<Account> checkLogin(String email, String password) {
         return accountRepository.checkLogin(email,password);
     }
 
     @Override
-    @Cacheable(unless="#result == null")
+    @Cacheable(cacheNames = "findByUsernameAndProviderID",unless="#result == null")
     public Optional<Account> findByUsernameAndProviderID(String username, String providerID) {
         return accountRepository.findByUsernameAndProviderID(username,providerID);
     }
 
     @Override
-    @Cacheable
+    @Cacheable(cacheNames ="countAccount",unless="#result == null")
     public Integer countAccount() {
         return accountRepository.countAccount();
     }
