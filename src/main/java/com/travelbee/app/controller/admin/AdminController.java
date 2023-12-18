@@ -69,7 +69,7 @@ public class AdminController {
     @GetMapping("/orders/moneydaily")
     public ResponseEntity<Object> getLineChartMoney() {
         List<Object[]> list = ordersService.getLineChartMoney();
-        return new ResponseEntity<>(list.subList(0,7), HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/tour/trending")

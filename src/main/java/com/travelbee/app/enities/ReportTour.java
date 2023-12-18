@@ -19,7 +19,6 @@ public class ReportTour implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer star;
-
     @ManyToOne
     @JoinColumn(name = "accountid", referencedColumnName = "id")
     private Account account;
