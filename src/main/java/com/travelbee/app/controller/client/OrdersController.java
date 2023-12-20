@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +29,16 @@ public class OrdersController {
     private final MailerServiceImpl mailerService;
     private static final String QR_CODE_TICKET = "http://localhost:8080/checkTikect";
 
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Object> getTicketInTour(@PathVariable("id") Long id){
+        return new ResponseEntity<>(ordersService.getTicketOnTour(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Object> findAll() {
+        return new ResponseEntity<>(ordersService.findAll(), HttpStatus.OK);
+    }
 
     @PostMapping("/save")
     public ResponseEntity<Object> saveTicket(@RequestBody OrdersDTO ordersDTO) {

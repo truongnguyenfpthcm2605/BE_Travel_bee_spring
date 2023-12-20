@@ -24,4 +24,6 @@ public interface OrdersService {
 
     List<Object[]> getTrending();
 
+    List<Orders[]> getTicketOnTour(Long tourID);
+
 }

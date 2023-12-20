@@ -33,4 +33,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
             "GROUP BY CAST(o.createdate AS DATE), o.plantour ORDER BY CAST(o.createdate AS DATE)")
     List<Object[]> getTrending();
 
+    @Query("select o from Orders o where o.plantour.tour.id = :tourID ")
+    List<Orders[]> getTicketOnTour( @Param("tourID") Long tourID);
+
 }

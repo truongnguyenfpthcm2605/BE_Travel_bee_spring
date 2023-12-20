@@ -87,4 +87,9 @@ public class OrdersServiceImpl implements OrdersService {
     public List<Object[]> getTrending() {
         return ordersRepository.getTrending();
     }
+
+    @Override
+    public List<Orders[]> getTicketOnTour(Long tourID) {
+        return ordersRepository.getTicketOnTour(tourID);
+    }
 }
