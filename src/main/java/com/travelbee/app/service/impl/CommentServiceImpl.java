@@ -54,4 +54,11 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findAll() {
         return commentRepository.findAll();
     }
+
+    @Override
+    public List<Comment> findByTourId(Long tourId) {
+        return commentRepository.findByTourId(tourId);
+    }
+
+
 }

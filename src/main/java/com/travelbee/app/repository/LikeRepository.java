@@ -14,4 +14,7 @@ public interface LikeRepository extends JpaRepository<Likes,Long> {
 
     @Query("select o from Likes o where o.account.id = :id ")
     Likes findByAccount(@Param("id")Long accountId);
+
+    @Query("select o from Likes o where o.account.id = :id and o.tour.id=:tourId ")
+    Likes findByAccount(@Param("id") Long accountId,@Param("tourId") Long tourId);
 }

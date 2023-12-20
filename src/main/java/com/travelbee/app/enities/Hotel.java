@@ -41,8 +41,6 @@ public class Hotel implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
     private List<Tourdetails> tourdetails;
-
-
-
+    
 
 }

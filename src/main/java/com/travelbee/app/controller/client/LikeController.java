@@ -33,13 +33,18 @@ public class LikeController {
     @PostMapping("/update")
     public ResponseEntity<Object> update(@RequestBody LikeDTO likeDTO) {
         Optional<Account> account = accountService.findByEmail(likeDTO.getEmail());
+        Optional<Tour> tour = tourService.findById(likeDTO.getTourId());
         if (account.isPresent()) {
-            Likes likes = likeService.findByAccount(account.get().getId());
+            Likes likes = likeService.findByAccount(account.get().getId(), likeDTO.getTourId());
             if (Objects.nonNull(likes)) {
-                likes.setIsactive(!likes.getIsactive());
+                if(likes.getIsactive()){
+                    likes.setIsactive(false);
+                }else{
+                    likes.setIsactive(true);
+                }
+                likes.setTour(tour.get());
                 likeService.save(likes);
             } else {
-                Optional<Tour> tour = tourService.findById(likeDTO.getTourId());
                 likeService.save(Likes.builder()
                         .createdate(new Date())
                         .account(account.get())

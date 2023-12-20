@@ -11,4 +11,6 @@ public interface CommentService {
     Optional<Comment> findById(Long id);
     void deleteById(Long id);
     List<Comment> findAll();
+
+    List<Comment> findByTourId(Long tourId);
 }

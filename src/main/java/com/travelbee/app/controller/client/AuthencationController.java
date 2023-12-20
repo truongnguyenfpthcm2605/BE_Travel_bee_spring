@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,7 +78,6 @@ public class AuthencationController {
         // return token and register success
         String token = jwtProvider.createToken(new UserPrinciple(account));
         return new ResponseEntity<>(Message.builder().status("Đăng ký thành công").data(token).build(), HttpStatus.OK);
-
     }
 
     @PostMapping("/login")
@@ -120,6 +120,8 @@ public class AuthencationController {
     public ResponseEntity<Object> logout() {
         return ResponseEntity.ok().build();
     }
+
+
 
     @GetMapping("/fail")
     public ResponseEntity<Object> oauth2Fail() {

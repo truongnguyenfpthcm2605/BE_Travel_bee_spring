@@ -30,7 +30,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
     List<Object[]> getLineChartMoney();
 
     @Query("SELECT SUM(o.price), CAST(o.createdate AS DATE), o.plantour FROM Orders o " +
-            "GROUP BY CAST(o.createdate AS DATE), o.plantour")
+            "GROUP BY CAST(o.createdate AS DATE), o.plantour ORDER BY CAST(o.createdate AS DATE)")
     List<Object[]> getTrending();
 
 }

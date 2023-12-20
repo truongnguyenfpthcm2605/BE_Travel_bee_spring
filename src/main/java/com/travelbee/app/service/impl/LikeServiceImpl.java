@@ -61,7 +61,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public Likes findByAccount(Long accountId) {
-        return likeRepository.findByAccount(accountId);
+    public Likes findByAccount(Long accountId, Long tourId) {
+        return likeRepository.findByAccount(accountId,tourId);
     }
+
 }

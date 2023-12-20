@@ -14,6 +14,6 @@ public interface LikeService {
     List<Likes> findAll();
 
     Long findAllLike(Long id);
-    Likes findByAccount(@Param("id")Long accountId);
+    Likes findByAccount(Long accountId, Long tourId);
 
 }

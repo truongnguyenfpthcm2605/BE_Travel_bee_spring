@@ -27,6 +27,10 @@ public class AccountController {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/all")
+    public ResponseEntity<Object> findAll() {
+        return new ResponseEntity<>(accountService.findAll(), HttpStatus.OK);
+    }
 
     @GetMapping("/{email}")
     public ResponseEntity<Object> getAccount(@PathVariable("email") String email) {

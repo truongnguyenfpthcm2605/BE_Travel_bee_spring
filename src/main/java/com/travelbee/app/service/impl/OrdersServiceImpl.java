@@ -54,7 +54,6 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @Cacheable(cacheNames ="findticket" ,unless="#result == null")
     public List<Orders> findticket(String email) {
         return ordersRepository.findticket(email);
     }

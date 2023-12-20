@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +27,15 @@ public class CommentController {
         return new ResponseEntity<>(commentService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/tour/{tourId}")
+    public ResponseEntity<Object> findByTourId(@PathVariable("tourId") Long tourId) {
+        List<Comment> comments = commentService.findByTourId(tourId);
+        if (!comments.isEmpty()) {
+            return new ResponseEntity<>(comments, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
         return commentService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
