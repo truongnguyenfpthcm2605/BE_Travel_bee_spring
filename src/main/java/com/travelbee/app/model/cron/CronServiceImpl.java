@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CronServiceImpl implements CronService{
+public class CronServiceImpl {
 
     private final VoucherServiceImpl voucherService;
-    @Override
+
     @Async
     @Scheduled(cron = "0 0 0 12 * ?")
     public void VoucherOutOfQuantity() {
