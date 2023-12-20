@@ -55,7 +55,7 @@ public class PlanTourServiceImpl implements PlanTourService {
     }
 
     @Override
-    @Cacheable(cacheNames = "findByPlanTour", unless = "#result ==null")
+    @Cacheable(unless="#result == null")
     public Optional<List<PlanTour>> findByPlanTour(Long tourID) {
         return planTourRepository.findByPlanTour(tourID);
     }

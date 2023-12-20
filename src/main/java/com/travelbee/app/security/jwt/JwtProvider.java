@@ -31,7 +31,7 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(secert).parseClaimsJws(token.trim());
             return true;
         }catch (SignatureException e){
-            logger.error("Invalid JWT signature Message : ", e);
+            logger.error("Invalid JWT signaturze Message : ", e);
         }catch (MalformedJwtException e){
             logger.error("Invalid JWT Malformed Message : ", e);
         }catch (ExpiredJwtException e){
