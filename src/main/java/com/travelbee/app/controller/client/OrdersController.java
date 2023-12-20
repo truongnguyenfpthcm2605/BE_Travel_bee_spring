@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +29,11 @@ public class OrdersController {
     private final MailerServiceImpl mailerService;
     private static final String QR_CODE_TICKET = "http://localhost:8080/checkTikect";
 
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Object> getTicketInTour(@PathVariable("id") Long id){
+        return new ResponseEntity<>(ordersService.getTicketOnTour(id), HttpStatus.OK);
+    }
 
     @PostMapping("/save")
     public ResponseEntity<Object> saveTicket(@RequestBody OrdersDTO ordersDTO) {
@@ -49,10 +55,14 @@ public class OrdersController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
 
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
         return ordersService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/all")
+    public ResponseEntity<Object> findAll() {
+        List<Orders> ordersList = ordersService.findAll();
+        return new ResponseEntity<>(ordersList, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

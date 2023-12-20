@@ -44,11 +44,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private String getToken(HttpServletRequest request){
         String authHeader = request.getHeader("Authorization");
-        if(authHeader !=null ){
-            if(authHeader.startsWith("Bearer")){
-                return authHeader.replace("Bearer","");
-            }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.replace("Bearer ", "");
         }
         return null;
     }
+
 }

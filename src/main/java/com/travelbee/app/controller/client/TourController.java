@@ -1,6 +1,7 @@
 package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.TourDTO;
+import com.travelbee.app.enities.PlanTour;
 import com.travelbee.app.enities.Tour;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.PlanTourServiceImpl;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -95,6 +97,14 @@ public class TourController {
     public ResponseEntity<Object> findByPlanTour(@PathVariable("id") Long id){
         return planTourService.findByPlanTour(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value,HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/plantour/all")
+    public ResponseEntity<List<PlanTour>> findAllPlanTours() {
+        List<PlanTour> planTours = planTourService.findAll();
+        if (planTours.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(planTours, HttpStatus.OK);
     }
 
 
