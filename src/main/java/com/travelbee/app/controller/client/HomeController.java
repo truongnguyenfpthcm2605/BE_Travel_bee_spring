@@ -4,6 +4,7 @@ import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Access;
 import com.travelbee.app.enities.Tour;
 import com.travelbee.app.enities.Voucher;
+import com.travelbee.app.exception.NotfoundException;
 import com.travelbee.app.model.mail.MailerServiceImpl;
 import com.travelbee.app.service.impl.AccessServiceImpl;
 import com.travelbee.app.service.impl.TourServiceImpl;
@@ -83,6 +84,14 @@ public class HomeController {
     @GetMapping("/findall/access")
     public ResponseEntity<List<Access>> findAllAcess(){
         return new ResponseEntity<>(accessService.findAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("/notfound/{error}")
+    public ResponseEntity<Object> notfound(@PathVariable("error") String error){
+        if(error.equals("error")){
+            return ResponseEntity.ok().build();
+        }
+        throw  new NotfoundException("Not found");
     }
 
 
