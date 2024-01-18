@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.Optional;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/location")
 public class LocationController {
     private final LocationServiceImpl locationService;
     private final AccountServiceImpl accountService;
-
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {
         return new ResponseEntity<>(locationService.findAll(), HttpStatus.OK);
