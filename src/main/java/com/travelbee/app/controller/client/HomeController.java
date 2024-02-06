@@ -2,10 +2,8 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Access;
-import com.travelbee.app.enities.Tour;
 import com.travelbee.app.enities.Voucher;
 import com.travelbee.app.exception.NotfoundException;
-import com.travelbee.app.model.mail.MailerServiceImpl;
 import com.travelbee.app.service.impl.AccessServiceImpl;
 import com.travelbee.app.service.impl.TourServiceImpl;
 import com.travelbee.app.service.impl.VoucherServiceImpl;

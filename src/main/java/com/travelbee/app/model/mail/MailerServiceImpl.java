@@ -60,14 +60,11 @@ public class MailerServiceImpl implements MailerService {
     }
 
     @Scheduled(fixedDelay = 1000, initialDelay = 1000)
-    public void run() {
+    public void run() throws MessagingException {
         while (!list.isEmpty()) {
             MailModel mail = list.remove(0);
-            try {
-                this.send(mail);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+            this.send(mail);
+
         }
     }
 }

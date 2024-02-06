@@ -1,7 +1,6 @@
 package com.travelbee.app.controller.admin;
 
 import com.travelbee.app.enities.PlanTour;
-import com.travelbee.app.enities.Tour;
 import com.travelbee.app.service.impl.AccessServiceImpl;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.OrdersServiceImpl;
@@ -10,16 +9,11 @@ import com.travelbee.app.util.Common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/staff")
