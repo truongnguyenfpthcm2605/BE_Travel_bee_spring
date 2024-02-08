@@ -2,10 +2,8 @@ package com.travelbee.app.enities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,25 +11,20 @@ import java.util.List;
 
 @Entity
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "transport")
-public class Transport implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Transport extends BaseEntity implements Serializable {
+
     private String title;
     private String phone;
     private String address;
     @Lob
     private String images;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedate;
+
     private String description;
-    private Boolean isactive;
 
     @ManyToOne
     @JoinColumn(name = "accountid", referencedColumnName = "id")

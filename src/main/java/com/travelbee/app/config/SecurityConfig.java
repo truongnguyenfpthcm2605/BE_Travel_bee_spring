@@ -70,7 +70,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).cors(cr -> cr.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/home/**").permitAll();
+                    auth.requestMatchers("/api/v1/home/**","/ap1/v1/health").permitAll();
                     auth.requestMatchers("/api/v1/auth/**").permitAll();
                     auth.requestMatchers("/oauth2/authorization/**",
                             "https://accounts.google.com/o/oauth2/v2/auth/**").permitAll();

@@ -3,6 +3,7 @@ package com.travelbee.app.enities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -13,16 +14,15 @@ import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Table(name = "account", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"username","email"})
 })
-public class Account implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Account  extends BaseEntity implements Serializable {
+
     private String username;
     private String email;
     private String fullname;
@@ -30,17 +30,11 @@ public class Account implements Serializable {
     private String password;
     @Lob
     private String image;
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createdate;
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updatedate;
     private String qrcode;
     private String providerID;
     @Temporal(TemporalType.DATE)
     private Date birthday;
-    private Boolean isactive ;
+
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
