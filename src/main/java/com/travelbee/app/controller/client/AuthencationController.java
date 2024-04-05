@@ -23,6 +23,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,6 +84,7 @@ public class AuthencationController {
                     new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             // return token and login success
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
             String token = jwtProvider.createToken(userPrinciple);
@@ -93,6 +95,7 @@ public class AuthencationController {
                             .email(userPrinciple.getUsername())
                             .token(token).build(), HttpStatus.OK);
         } catch (AuthenticationException exception) {
+            exception.printStackTrace();
             return new ResponseEntity<>(Message.builder().status("Đăng nhập thất bại").build(), HttpStatus.UNAUTHORIZED);
         }
     }
