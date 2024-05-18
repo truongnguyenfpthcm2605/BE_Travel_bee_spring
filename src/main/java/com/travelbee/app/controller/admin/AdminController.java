@@ -63,6 +63,9 @@ public class AdminController {
     @GetMapping("/orders/moneydaily")
     public ResponseEntity<Object> getLineChartMoney() {
         List<Object[]> list = ordersService.getLineChartMoney();
+        if(list.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(list.subList(list.size()-7,list.size()), HttpStatus.OK);
     }
 

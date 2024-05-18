@@ -4,8 +4,6 @@ import com.travelbee.app.enities.Access;
 import com.travelbee.app.repository.AccessRepository;
 import com.travelbee.app.service.AccessService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@CacheConfig(cacheNames = "access")
 public class AccessServiceImpl  implements AccessService {
     private final AccessRepository accessRepository;
     @Override
@@ -29,7 +26,6 @@ public class AccessServiceImpl  implements AccessService {
     }
 
     @Override
-    @Cacheable(unless="#result == null")
     public List<Access> findAll() {
         return accessRepository.findAll();
     }

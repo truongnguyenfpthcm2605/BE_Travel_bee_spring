@@ -18,9 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "account", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username","email"})
-})
+@Table(name = "account")
 public class Account  extends BaseEntity implements Serializable {
 
     private String username;
@@ -89,4 +87,8 @@ public class Account  extends BaseEntity implements Serializable {
     private List<ReportTour> reportTours;
 
 
+    @Override
+    public String toString() {
+        return "Account{}";
+    }
 }

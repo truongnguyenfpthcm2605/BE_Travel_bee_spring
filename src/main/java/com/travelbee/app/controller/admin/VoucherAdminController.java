@@ -34,30 +34,33 @@ public class VoucherAdminController {
 
     @PostMapping("/staff/voucher/save")
     public ResponseEntity<Object> save(@RequestBody VoucherDTO voucherDTO) {
-        if(voucherService.findById(voucherDTO.getId()).isPresent()){
-           return ResponseEntity.badRequest().build();
+        if (voucherService.findById(voucherDTO.getId()).isPresent()) {
+            return ResponseEntity.badRequest().build();
         }
-        return accountService.findByEmail(voucherDTO.getEmail()).<ResponseEntity<Object>>map(value ->
-                new ResponseEntity<>(voucherService.save(Voucher.builder()
-                        .id(voucherDTO.getId())
-                        .title(voucherDTO.getTitle())
-                        .image(voucherDTO.getImage())
-                        .condition(voucherDTO.getCondition())
-                        .quanity(voucherDTO.getQuanity())
-                        .discount(voucherDTO.getDiscount())
-                        .createdate(voucherDTO.getCreatedate())
-                        .enddate(voucherDTO.getEnddate())
-                        .updatedate(new Date())
-                        .isactive(true)
-                        .account(value).build()), HttpStatus.OK)
-        ).orElseGet(() -> ResponseEntity.badRequest().build());
+        Optional<Account> account = accountService.findByEmail(voucherDTO.getEmail());
+        if (account.isPresent()) {
+            System.out.println(account.get());
+            return new ResponseEntity<>(voucherService.save(Voucher.builder()
+                    .id(voucherDTO.getId())
+                    .title(voucherDTO.getTitle())
+                    .image(voucherDTO.getImage())
+                    .condition(voucherDTO.getCondition())
+                    .quanity(voucherDTO.getQuanity())
+                    .discount(voucherDTO.getDiscount())
+                    .createdate(voucherDTO.getCreatedate())
+                    .enddate(voucherDTO.getEnddate())
+                    .updatedate(new Date())
+                    .isactive(true)
+                    .account(account.get()).build()), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
 
     }
 
     @PutMapping("/staff/voucher/update/{id}")
     public ResponseEntity<Object> update(@RequestBody VoucherDTO voucherDTO, @PathVariable("id") String id) {
         Optional<Voucher> voucher = voucherService.findById(id);
-        if(voucher.isPresent()){
+        if (voucher.isPresent()) {
             Voucher voucher1 = voucher.get();
             voucher1.setTitle(voucherDTO.getTitle());
             voucher1.setDiscount(voucherDTO.getDiscount());
@@ -66,7 +69,7 @@ public class VoucherAdminController {
             voucher1.setEnddate(voucherDTO.getEnddate());
             voucher1.setImage(voucherDTO.getImage());
             voucher1.setAccount(accountService.findByEmail(voucherDTO.getEmail()).get());
-            return new ResponseEntity<>(voucherService.update(voucher1),HttpStatus.OK);
+            return new ResponseEntity<>(voucherService.update(voucher1), HttpStatus.OK);
         }
         return ResponseEntity.notFound().build();
 
@@ -97,9 +100,9 @@ public class VoucherAdminController {
     }
 
     @DeleteMapping("/admin/voucher/{id}")
-    public ResponseEntity<Object> deleteById(@PathVariable("id") String id){
-      voucherService.deleteById(id);
-      return ResponseEntity.ok().build();
+    public ResponseEntity<Object> deleteById(@PathVariable("id") String id) {
+        voucherService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 

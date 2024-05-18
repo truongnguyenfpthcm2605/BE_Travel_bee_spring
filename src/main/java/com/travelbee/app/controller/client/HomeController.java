@@ -43,8 +43,6 @@ public class HomeController {
             Voucher voucher1 = voucher.get();
             if(voucher1.getCondition() >= voucher1.getQuanity()){
                 return new ResponseEntity<>(Message.builder().status("Voucher đã hết số lượng ! ").build(),HttpStatus.BAD_REQUEST);
-            }else if(new Date().after(voucher1.getEnddate())){
-                return new ResponseEntity<>(Message.builder().status("Voucher đã hết hạn !").build(),HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(voucher1,HttpStatus.OK);
 

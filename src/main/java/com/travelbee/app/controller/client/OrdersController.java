@@ -1,11 +1,15 @@
 package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.OrdersDTO;
+import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Orders;
+import com.travelbee.app.enities.Payment;
 import com.travelbee.app.model.mail.MailerServiceImpl;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.OrdersServiceImpl;
+import com.travelbee.app.service.impl.PaymentServiceImpl;
 import com.travelbee.app.service.impl.PlanTourServiceImpl;
+import com.travelbee.app.util.Banking;
 import com.travelbee.app.util.Common;
 import com.travelbee.app.util.QRcodeService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class OrdersController {
     private final PlanTourServiceImpl planTourService;
     private final QRcodeService qRcodeService;
     private final MailerServiceImpl mailerService;
+    private final PaymentServiceImpl paymentService;
     private static final String QR_CODE_TICKET = "http://localhost:8080/checkTikect";
 
 
@@ -42,6 +47,7 @@ public class OrdersController {
 
     @PostMapping("/save")
     public ResponseEntity<Object> saveTicket(@RequestBody OrdersDTO ordersDTO) {
+        Account account = accountService.findByEmail(ordersDTO.getEmailAccount()).get();
         Orders orders = ordersService.save(
                 Orders.builder()
                         .voucher(ordersDTO.getVoucher())
@@ -54,9 +60,17 @@ public class OrdersController {
                         .member(ordersDTO.getMember())
                         .createdate(new Date())
                         .isactive(true)
-                        .account(accountService.findByEmail(ordersDTO.getEmailAccount()).get())
+                        .account(account)
                         .plantour(planTourService.findById(ordersDTO.getPlanTourId()).get()).build());
         sendmailSuccess(orders);
+        paymentService.save(Payment.builder()
+                .money(orders.getPrice())
+                .stk("N/A")
+                .content("Thanh Toan ACB")
+                .typepayment(Banking.ACB.name())
+                .orders(orders)
+                .name(account.getFullname())
+                .createdate(new Date()).build());
         return new ResponseEntity<>(orders, HttpStatus.OK);
 
     }

@@ -28,6 +28,7 @@ public class FeedbackController {
 
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {
+        System.out.println("hello");
         return new ResponseEntity<>(feedbackService.findAll(), HttpStatus.OK);
     }
 
