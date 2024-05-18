@@ -30,16 +30,7 @@ public class JwtProvider {
         try {
             Jwts.parser().setSigningKey(secert).parseClaimsJws(token.trim());
             return true;
-        }catch (SignatureException e){
-            logger.error("Invalid JWT signaturze Message : ", e);
-        }catch (MalformedJwtException e){
-            logger.error("Invalid JWT Malformed Message : ", e);
-        }catch (ExpiredJwtException e){
-            logger.error("Invalid JWT Expired Message : ", e);
-        }catch (UnsupportedJwtException e){
-            logger.error("Invalid JWT Unsupported Message : ", e);
-        }catch (IllegalArgumentException e){
-            logger.error("Invalid JWT IllegalArgument Message : ", e);
+        }catch (Exception e) {
         }
         return false;
     }

@@ -14,16 +14,16 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+
 public class OrdersServiceImpl implements OrdersService {
     private final OrdersRepository ordersRepository;
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Orders save(Orders Orders) {
         return ordersRepository.save(Orders);
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Orders update(Orders Orders) {
         return ordersRepository.save(Orders);
     }
@@ -34,7 +34,6 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public void deleteById(Long id) {
          ordersRepository.deleteById(id);
     }

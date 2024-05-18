@@ -14,17 +14,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Likes save(Likes Likes) {
         return likeRepository.save(Likes);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Likes update(Likes Likes) {
         return likeRepository.save(Likes);
@@ -35,7 +34,6 @@ public class LikeServiceImpl implements LikeService {
         return likeRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         likeRepository.deleteById(id);

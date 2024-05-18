@@ -13,17 +13,16 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class VoucherServiceImpl implements VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Voucher save(Voucher Voucher) {
         return voucherRepository.save(Voucher);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Voucher update(Voucher Voucher) {
         return voucherRepository.save(Voucher);
@@ -35,7 +34,6 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(String id) {
         voucherRepository.deleteById(id);

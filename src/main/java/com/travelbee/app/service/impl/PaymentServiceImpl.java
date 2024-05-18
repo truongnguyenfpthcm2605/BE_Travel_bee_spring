@@ -14,17 +14,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Payment save(Payment Payment) {
         return paymentRepository.save(Payment);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Payment update(Payment Payment) {
         return paymentRepository.save(Payment);
@@ -35,7 +34,6 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         paymentRepository.deleteById(id);

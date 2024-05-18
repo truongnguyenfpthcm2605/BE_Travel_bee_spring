@@ -14,17 +14,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Location save(Location Location) {
         return locationRepository.save(Location);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Location update(Location Location) {
         return locationRepository.save(Location);
@@ -35,7 +34,6 @@ public class LocationServiceImpl implements LocationService {
         return locationRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         locationRepository.deleteById(id);

@@ -13,17 +13,16 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Hotel save(Hotel Hotel) {
         return hotelRepository.save(Hotel);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Hotel update(Hotel Hotel) {
         return hotelRepository.save(Hotel);
@@ -33,7 +32,6 @@ public class HotelServiceImpl implements HotelService {
         return hotelRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         hotelRepository.deleteById(id);

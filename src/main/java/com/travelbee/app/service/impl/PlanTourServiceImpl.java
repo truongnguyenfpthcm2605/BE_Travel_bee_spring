@@ -15,17 +15,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class PlanTourServiceImpl implements PlanTourService {
 
     private final PlanTourRepository planTourRepository;
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public PlanTour save(PlanTour PlanTour) {
         return planTourRepository.save(PlanTour);
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public PlanTour update(PlanTour PlanTour) {
         return planTourRepository.save(PlanTour);
     }
@@ -36,7 +35,6 @@ public class PlanTourServiceImpl implements PlanTourService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public void deleteById(Long id) {
          planTourRepository.deleteById(id);
     }

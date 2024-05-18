@@ -13,16 +13,15 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class TourDetailsServiceImpl implements TourDetailsService {
     private final TourDetailsRepository tourDetailsRepository;
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Tourdetails save(Tourdetails Tourdetails) {
         return tourDetailsRepository.save(Tourdetails) ;
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Tourdetails update(Tourdetails Tourdetails) {
         return tourDetailsRepository.save(Tourdetails) ;
     }
@@ -33,7 +32,6 @@ public class TourDetailsServiceImpl implements TourDetailsService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public void deleteById(Long id) {
         tourDetailsRepository.deleteById(id);
     }

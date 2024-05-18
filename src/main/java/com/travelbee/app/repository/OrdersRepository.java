@@ -26,7 +26,7 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
     Long countTicketActive();
 
     @Query("select  CAST(o.createdate AS DATE), sum(o.price) from Orders " +
-            "o group by CAST(o.createdate AS DATE) order by CAST(o.createdate AS DATE) asc ")
+            "o where o.isactive = true group by CAST(o.createdate AS DATE) order by CAST(o.createdate AS DATE) asc ")
     List<Object[]> getLineChartMoney();
 
     @Query("SELECT SUM(o.price), CAST(o.createdate AS DATE), o.plantour FROM Orders o " +

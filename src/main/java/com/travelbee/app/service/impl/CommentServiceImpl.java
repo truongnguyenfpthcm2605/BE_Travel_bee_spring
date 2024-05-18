@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+
     @Override
     public Comment save(Comment Comment) {
         return commentRepository.save(Comment);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Comment update(Comment Comment) {
         return commentRepository.save(Comment);
@@ -35,7 +35,6 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         commentRepository.deleteById(id);

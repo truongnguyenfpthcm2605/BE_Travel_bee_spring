@@ -66,7 +66,8 @@ public class AdminController {
         if(list.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(list.subList(list.size()-7,list.size()), HttpStatus.OK);
+        int check = list.size() > 7 ? list.size() - 7 : 0;
+        return new ResponseEntity<>(list.subList(check,list.size()), HttpStatus.OK);
     }
 
     @GetMapping("/tour/trending")

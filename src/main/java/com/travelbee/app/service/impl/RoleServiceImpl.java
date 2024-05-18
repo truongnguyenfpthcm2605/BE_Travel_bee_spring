@@ -15,16 +15,15 @@ import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Role save(Role Role) {
         return roleRepository.save(Role);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Role update(Role Role) {
         return roleRepository.save(Role);
@@ -35,7 +34,6 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         roleRepository.deleteById(id);
@@ -47,7 +45,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Cacheable(unless="#result == null")
     public Optional<Role> findByName(Roles name) {
         return roleRepository.findByName(name);
     }

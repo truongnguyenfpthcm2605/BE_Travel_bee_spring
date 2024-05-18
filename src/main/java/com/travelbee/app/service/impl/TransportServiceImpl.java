@@ -14,17 +14,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class TransportServiceImpl implements TransportService {
 
     private final TransportRepository transportRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Transport save(Transport Transport) {
         return transportRepository.save(Transport);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Transport update(Transport Transport) {
         return transportRepository.save(Transport);
@@ -36,7 +35,6 @@ public class TransportServiceImpl implements TransportService {
         return transportRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         transportRepository.deleteById(id);

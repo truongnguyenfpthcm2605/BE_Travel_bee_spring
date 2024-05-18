@@ -15,17 +15,15 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@CacheConfig(cacheNames = "accounts")
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Account save(Account account) {
         return accountRepository.save(account);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Account update(Account account) {
         return accountRepository.save(account);
@@ -36,7 +34,6 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         accountRepository.deleteById(id);

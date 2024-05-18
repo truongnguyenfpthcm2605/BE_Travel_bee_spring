@@ -14,17 +14,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepostitory feedbackRepostitory;
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Feedback save(Feedback Feedback) {
         return feedbackRepostitory.save(Feedback);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public Feedback update(Feedback Feedback) {
         return feedbackRepostitory.save(Feedback);
@@ -35,7 +34,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackRepostitory.findById(id);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(Long id) {
         feedbackRepostitory.deleteById(id);
