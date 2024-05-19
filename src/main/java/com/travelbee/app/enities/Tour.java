@@ -24,6 +24,7 @@ public class Tour extends BaseEntity implements Serializable {
     private Long views;
     @Lob
     private String images;
+    private String location;
 
 
     @ManyToOne
