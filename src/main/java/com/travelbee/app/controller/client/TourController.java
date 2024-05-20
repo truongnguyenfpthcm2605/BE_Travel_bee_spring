@@ -43,6 +43,7 @@ public class TourController {
                 .description(tourDTO.getDescription())
                 .price(tourDTO.getPrice())
                 .images(tourDTO.getImages())
+                .location(tourDTO.getLocation())
                 .views(1L)
                 .isactive(true)
                 .createdate(new Date())
@@ -60,6 +61,7 @@ public class TourController {
                         .title(tourDTO.getTitle())
                         .images(tourDTO.getImages())
                         .price(tourDTO.getPrice())
+                        .location(tourDTO.getLocation())
                         .updatedate(new Date())
                         .createdate(value.getCreatedate())
                         .isactive(value.getIsactive())
@@ -89,15 +91,17 @@ public class TourController {
     }
 
     @GetMapping("/details/{id}")
-    public ResponseEntity<Object> findByToudeTails(@PathVariable("id") Long id){
-        return tourDetailsService.findByTourDetails(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value,HttpStatus.OK))
+    public ResponseEntity<Object> findByToudeTails(@PathVariable("id") Long id) {
+        return tourDetailsService.findByTourDetails(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @GetMapping("/plantour/{id}")
-    public ResponseEntity<Object> findByPlanTour(@PathVariable("id") Long id){
-        return planTourService.findByPlanTour(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value,HttpStatus.OK))
+    public ResponseEntity<Object> findByPlanTour(@PathVariable("id") Long id) {
+        return planTourService.findByPlanTour(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @GetMapping("/plantour/all")
     public ResponseEntity<List<PlanTour>> findAllPlanTours() {
         List<PlanTour> planTours = planTourService.findAll();

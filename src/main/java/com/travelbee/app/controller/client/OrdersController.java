@@ -66,8 +66,8 @@ public class OrdersController {
         paymentService.save(Payment.builder()
                 .money(orders.getPrice())
                 .stk("N/A")
-                .content("Thanh Toan ACB")
-                .typepayment(Banking.ACB.name())
+                .content("Thanh Toan Banking Online")
+                .typepayment("Banking Online")
                 .orders(orders)
                 .name(account.getFullname())
                 .createdate(new Date()).build());

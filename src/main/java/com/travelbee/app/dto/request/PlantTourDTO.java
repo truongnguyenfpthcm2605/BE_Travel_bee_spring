@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TourDTO {
-    private String title;
+public class PlantTourDTO {
+    private Date startDate;
+    private Date endDate;
     private String description;
-    private Double price;
-    private String images;
     private String email;
-    private String location;
+    private Long tourId;
+
 }
