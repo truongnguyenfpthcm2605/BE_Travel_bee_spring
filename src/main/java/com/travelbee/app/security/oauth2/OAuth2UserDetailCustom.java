@@ -18,6 +18,7 @@ public class OAuth2UserDetailCustom  implements OAuth2User, UserDetails {
     private List<GrantedAuthority> authorities;
     private Map<String,Object> attributes;
 
+
     public OAuth2UserDetailCustom(String fullname, String username, String password, List<GrantedAuthority> authorities) {
         this.username = username;
         this.fullname = fullname;

@@ -15,9 +15,10 @@ public interface OrdersRepository extends JpaRepository<Orders,Long> {
     @Query("select  o from Orders o where o.account.email = :email and o.isactive = true order by o.createdate desc ")
     List<Orders> findticket( @Param("email") String email);
 
-    @Query("SELECT SUM(o.price) FROM Orders o WHERE CAST(o.createdate AS DATE) = CAST(:today AS DATE)")
+    @Query("SELECT SUM(o.price) FROM Orders o WHERE o.isactive =true and CAST(o.createdate AS DATE) = CAST(:today AS DATE)")
     Double todayRevenue(@Param("today") Date today);
-    @Query("SELECT COUNT(o.id) FROM Orders o WHERE CAST(o.createdate AS DATE) = CAST(:today AS DATE)")
+
+    @Query("SELECT COUNT(o.id) FROM Orders o WHERE o.isactive =true and CAST(o.createdate AS DATE) = CAST(:today AS DATE)")
     Double ticketToday(Date today);
 
     @Query("select count(o) , count(o.isactive) from Orders  o where o.isactive= false ")
