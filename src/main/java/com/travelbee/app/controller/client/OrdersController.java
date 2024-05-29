@@ -32,7 +32,6 @@ public class OrdersController {
     private final QRcodeService qRcodeService;
     private final MailerServiceImpl mailerService;
     private final PaymentServiceImpl paymentService;
-    private static final String QR_CODE_TICKET = "http://localhost:8080/checkTikect";
 
 
     @GetMapping("/find/{id}")
@@ -73,6 +72,14 @@ public class OrdersController {
                 .createdate(new Date()).build());
         return new ResponseEntity<>(orders, HttpStatus.OK);
 
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> update(@PathVariable("id") Long id) {
+        Orders orders = ordersService.findById(id).get();
+        orders.setStatus("Đã thanh toán");
+        ordersService.save(orders);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
