@@ -68,4 +68,14 @@ public class AccountController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/active/{id}")
+    public ResponseEntity<Object> getActiveAccount(@PathVariable("id") Long id) {
+         Optional<Account> account = accountService.findById(id);
+         if(account.isPresent()) {
+             account.get().setIsactive(!account.get().getIsactive());
+             return new ResponseEntity<>(accountService.update(account.get()),HttpStatus.OK);
+         }
+         return ResponseEntity.notFound().build();
+    }
 }
