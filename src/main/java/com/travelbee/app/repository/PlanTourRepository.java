@@ -14,4 +14,7 @@ public interface PlanTourRepository extends JpaRepository<PlanTour,Long> {
 
     @Query("select o from PlanTour o where o.tour.id = :id ")
     Optional<List<PlanTour>> findByPlanTour(@Param("id") Long tourID);
+
+    @Query("select o from PlanTour  o where  o.tour.isactive = true")
+    List<PlanTour> findActivePlanTours();
 }

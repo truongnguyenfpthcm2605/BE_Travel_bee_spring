@@ -9,7 +9,6 @@ import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.OrdersServiceImpl;
 import com.travelbee.app.service.impl.PaymentServiceImpl;
 import com.travelbee.app.service.impl.PlanTourServiceImpl;
-import com.travelbee.app.util.Banking;
 import com.travelbee.app.util.Common;
 import com.travelbee.app.util.QRcodeService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -74,10 +72,10 @@ public class OrdersController {
 
     }
 
-    @PutMapping("/update/{id}")
+    @GetMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id) {
         Orders orders = ordersService.findById(id).get();
-        orders.setStatus("Đã thanh toán");
+        orders.setStatus("Đã Thanh Toán");
         ordersService.save(orders);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
