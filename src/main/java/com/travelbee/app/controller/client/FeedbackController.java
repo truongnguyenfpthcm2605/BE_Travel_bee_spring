@@ -28,7 +28,6 @@ public class FeedbackController {
 
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {
-        System.out.println("hello");
         return new ResponseEntity<>(feedbackService.findAll(), HttpStatus.OK);
     }
 
@@ -98,6 +97,13 @@ public class FeedbackController {
             }
         }
         return ResponseEntity.notFound().build();
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
+        feedbackService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 
