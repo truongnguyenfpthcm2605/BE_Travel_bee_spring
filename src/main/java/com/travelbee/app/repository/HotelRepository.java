@@ -13,4 +13,6 @@ public interface HotelRepository extends JpaRepository<Hotel,Long> {
 
     @Query("select o from Hotel  o where o.title like :keyword")
     List<Hotel> findByTitle(@Param("keyword") String title);
+
+    List<Hotel> findByIsactive(Boolean isActive );
 }

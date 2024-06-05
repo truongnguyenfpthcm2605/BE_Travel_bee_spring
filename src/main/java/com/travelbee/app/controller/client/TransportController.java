@@ -64,7 +64,7 @@ public class TransportController {
     public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
         Optional<Transport> transport = transportService.findById(id);
        if(transport.isPresent()){
-           transport.get().setIsactive(false);
+           transport.get().setIsactive(!transport.get().getIsactive());
            return new ResponseEntity<>(transportService.update(transport.get()),HttpStatus.OK);
        }
        return ResponseEntity.badRequest().build();
