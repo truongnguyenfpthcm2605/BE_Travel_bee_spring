@@ -34,14 +34,10 @@ public class LikeController {
     public ResponseEntity<Object> update(@RequestBody LikeDTO likeDTO) {
         Optional<Account> account = accountService.findByEmail(likeDTO.getEmail());
         Optional<Tour> tour = tourService.findById(likeDTO.getTourId());
-        if (account.isPresent()) {
+        if (account.isPresent() && tour.isPresent()) {
             Likes likes = likeService.findByAccount(account.get().getId(), likeDTO.getTourId());
             if (Objects.nonNull(likes)) {
-                if(likes.getIsactive()){
-                    likes.setIsactive(false);
-                }else{
-                    likes.setIsactive(true);
-                }
+                likes.setIsactive(!likes.getIsactive());
                 likes.setTour(tour.get());
                 likeService.save(likes);
             } else {
@@ -51,7 +47,7 @@ public class LikeController {
                         .tour(tour.get())
                         .isactive(true).build());
             }
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(likes);
         }
         return ResponseEntity.badRequest().build();
 
