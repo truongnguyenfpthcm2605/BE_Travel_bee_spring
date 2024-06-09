@@ -4,9 +4,9 @@ import com.travelbee.app.dto.request.LikeDTO;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Likes;
 import com.travelbee.app.enities.Tour;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.LikeServiceImpl;
-import com.travelbee.app.service.impl.TourServiceImpl;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.LikeService;
+import com.travelbee.app.service.TourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LikeController {
 
-    private final TourServiceImpl tourService;
-    private final AccountServiceImpl accountService;
-    private final LikeServiceImpl likeService;
+    private final TourService tourService;
+    private final AccountService accountService;
+    private final LikeService likeService;
 
     @GetMapping("/all/{id}")
     public ResponseEntity<Object> findAllLike(@PathVariable("id") Long tourId) {

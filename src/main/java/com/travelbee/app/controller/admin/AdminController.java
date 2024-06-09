@@ -1,10 +1,10 @@
 package com.travelbee.app.controller.admin;
 
 import com.travelbee.app.enities.PlanTour;
-import com.travelbee.app.service.impl.AccessServiceImpl;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.OrdersServiceImpl;
-import com.travelbee.app.service.impl.TourServiceImpl;
+import com.travelbee.app.service.AccessService;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.OrdersService;
+import com.travelbee.app.service.TourService;
 import com.travelbee.app.util.Common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("api/v1/staff")
 @RequiredArgsConstructor
 public class AdminController {
-    private final OrdersServiceImpl ordersService;
-    private final AccountServiceImpl accountService;
-    private final TourServiceImpl tourService;
-    private final AccessServiceImpl accessService;
+    private final OrdersService ordersService;
+    private final AccountService accountService;
+    private final TourService tourService;
+    private final AccessService accessService;
 
     @GetMapping("/TodayRevenue")
     public ResponseEntity<Object> getTodayRevenue(@RequestParam("today") String today) {

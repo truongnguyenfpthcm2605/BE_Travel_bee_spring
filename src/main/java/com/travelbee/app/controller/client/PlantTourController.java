@@ -2,9 +2,9 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.PlantTourDTO;
 import com.travelbee.app.enities.PlanTour;
+import com.travelbee.app.service.PlanTourService;
+import com.travelbee.app.service.TourService;
 import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.PlanTourServiceImpl;
-import com.travelbee.app.service.impl.TourServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +19,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class PlantTourController {
 
-    private final PlanTourServiceImpl planTourService;
+    private final PlanTourService planTourService;
     private final AccountServiceImpl accountService;
-    private final TourServiceImpl tourService;
+    private final TourService tourService;
 
     @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody PlantTourDTO plantTourDTO){

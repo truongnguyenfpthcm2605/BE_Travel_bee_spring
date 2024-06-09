@@ -44,19 +44,8 @@ public class Account  extends BaseEntity implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<Transport> transports;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<Hotel> hotels;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private List<Tour> tours;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<Location> locations;
 
     @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)

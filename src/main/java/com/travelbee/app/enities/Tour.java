@@ -43,9 +43,6 @@ public class Tour extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "tour", fetch = FetchType.EAGER)
     private List<PlanTour>  planTours;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tour", fetch = FetchType.EAGER)
-    private List<Tourdetails> tourdetails;
 
     @JsonIgnore
     @OneToMany(mappedBy = "tour", fetch = FetchType.EAGER)

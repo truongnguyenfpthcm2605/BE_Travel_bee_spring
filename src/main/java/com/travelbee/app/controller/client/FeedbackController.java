@@ -4,9 +4,9 @@ import com.travelbee.app.dto.request.FeedBackDTO;
 import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Feedback;
-import com.travelbee.app.model.mail.MailerServiceImpl;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.FeedbackServiceImpl;
+import com.travelbee.app.model.mail.MailerService;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.FeedbackService;
 import com.travelbee.app.util.Common;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +22,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FeedbackController {
 
-    private final MailerServiceImpl mailerService;
-    private final AccountServiceImpl accountService;
-    private final FeedbackServiceImpl feedbackService;
+    private final MailerService mailerService;
+    private final AccountService accountService;
+    private final FeedbackService feedbackService;
 
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {

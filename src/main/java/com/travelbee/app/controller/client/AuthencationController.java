@@ -6,11 +6,11 @@ import com.travelbee.app.dto.response.AccountResponse;
 import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Role;
-import com.travelbee.app.model.mail.MailerServiceImpl;
+import com.travelbee.app.model.mail.MailerService;
 import com.travelbee.app.security.jwt.JwtProvider;
 import com.travelbee.app.security.userprincal.UserPrinciple;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.RoleServiceImpl;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.RoleService;
 import com.travelbee.app.util.Common;
 import com.travelbee.app.util.Provider;
 import com.travelbee.app.util.Randoms;
@@ -23,7 +23,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,12 +39,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthencationController {
     private static final String CODE_MAIL = Randoms.randomCodeMail();
-    private final AccountServiceImpl accountService;
-    private final RoleServiceImpl roleService;
+    private final AccountService accountService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
-    private final MailerServiceImpl mailerService;
+    private final MailerService mailerService;
 
 
     @PostMapping("/register")

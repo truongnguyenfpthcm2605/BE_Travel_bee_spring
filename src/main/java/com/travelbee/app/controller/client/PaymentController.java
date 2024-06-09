@@ -1,8 +1,8 @@
 package com.travelbee.app.controller.client;
 
 import com.travelbee.app.enities.Payment;
-import com.travelbee.app.service.impl.OrdersServiceImpl;
-import com.travelbee.app.service.impl.PaymentServiceImpl;
+import com.travelbee.app.service.OrdersService;
+import com.travelbee.app.service.PaymentService;
 import com.travelbee.app.util.Banking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class PaymentController {
 
-    private final PaymentServiceImpl paymentService;
-    private final OrdersServiceImpl ordersService;
+    private final PaymentService paymentService;
+    private final OrdersService ordersService;
 
     @PostMapping("/save")
     public ResponseEntity<Object> savePayment(

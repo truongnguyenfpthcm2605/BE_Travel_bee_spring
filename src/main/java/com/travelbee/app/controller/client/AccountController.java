@@ -2,7 +2,7 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.AccountDTO;
 import com.travelbee.app.enities.Account;
-import com.travelbee.app.service.impl.AccountServiceImpl;
+import com.travelbee.app.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountServiceImpl accountService;
+    private final AccountService accountService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 

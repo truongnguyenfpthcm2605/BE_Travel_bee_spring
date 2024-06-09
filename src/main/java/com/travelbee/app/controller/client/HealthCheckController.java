@@ -1,6 +1,7 @@
 package com.travelbee.app.controller.client;
 
 import com.travelbee.app.enities.Role;
+import com.travelbee.app.service.RoleService;
 import com.travelbee.app.service.impl.RoleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class HealthCheckController {
-    private final RoleServiceImpl roleService;
+    private final RoleService roleService;
 
     @GetMapping("/ap1/v1/health")
     public ResponseEntity<String> healthCheck() throws Exception {

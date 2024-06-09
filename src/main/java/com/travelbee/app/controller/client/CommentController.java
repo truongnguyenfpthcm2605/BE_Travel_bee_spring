@@ -2,6 +2,9 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.CommentDTO;
 import com.travelbee.app.enities.Comment;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.CommentService;
+import com.travelbee.app.service.TourService;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import com.travelbee.app.service.impl.CommentServiceImpl;
 import com.travelbee.app.service.impl.TourServiceImpl;
@@ -18,9 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/comment")
 public class CommentController {
-    private final CommentServiceImpl commentService;
-    private final AccountServiceImpl accountService;
-    private final TourServiceImpl tourService;
+    private final CommentService commentService;
+    private final AccountService accountService;
+    private final TourService tourService;
 
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {

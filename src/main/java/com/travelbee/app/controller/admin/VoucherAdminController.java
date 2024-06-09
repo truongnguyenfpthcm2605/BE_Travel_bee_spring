@@ -3,8 +3,8 @@ package com.travelbee.app.controller.admin;
 import com.travelbee.app.dto.request.VoucherDTO;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Voucher;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.VoucherServiceImpl;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VoucherAdminController {
 
-    private final VoucherServiceImpl voucherService;
-    private final AccountServiceImpl accountService;
+    private final VoucherService voucherService;
+    private final AccountService accountService;
 
     @GetMapping("/staff/voucher/all")
     public ResponseEntity<Object> findAll() {

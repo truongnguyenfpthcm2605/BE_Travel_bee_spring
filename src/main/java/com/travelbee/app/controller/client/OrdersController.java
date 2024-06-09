@@ -4,11 +4,11 @@ import com.travelbee.app.dto.request.OrdersDTO;
 import com.travelbee.app.enities.Account;
 import com.travelbee.app.enities.Orders;
 import com.travelbee.app.enities.Payment;
-import com.travelbee.app.model.mail.MailerServiceImpl;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.OrdersServiceImpl;
-import com.travelbee.app.service.impl.PaymentServiceImpl;
-import com.travelbee.app.service.impl.PlanTourServiceImpl;
+import com.travelbee.app.model.mail.MailerService;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.OrdersService;
+import com.travelbee.app.service.PaymentService;
+import com.travelbee.app.service.PlanTourService;
 import com.travelbee.app.util.Common;
 import com.travelbee.app.util.QRcodeService;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrdersController {
 
-    private final OrdersServiceImpl ordersService;
-    private final AccountServiceImpl accountService;
-    private final PlanTourServiceImpl planTourService;
+    private final OrdersService ordersService;
+    private final AccountService accountService;
+    private final PlanTourService planTourService;
     private final QRcodeService qRcodeService;
-    private final MailerServiceImpl mailerService;
-    private final PaymentServiceImpl paymentService;
+    private final MailerService mailerService;
+    private final PaymentService paymentService;
 
 
     @GetMapping("/find/{id}")

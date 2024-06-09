@@ -3,10 +3,9 @@ package com.travelbee.app.controller.client;
 import com.travelbee.app.dto.request.TourDTO;
 import com.travelbee.app.enities.PlanTour;
 import com.travelbee.app.enities.Tour;
-import com.travelbee.app.service.impl.AccountServiceImpl;
-import com.travelbee.app.service.impl.PlanTourServiceImpl;
-import com.travelbee.app.service.impl.TourDetailsServiceImpl;
-import com.travelbee.app.service.impl.TourServiceImpl;
+import com.travelbee.app.service.AccountService;
+import com.travelbee.app.service.PlanTourService;
+import com.travelbee.app.service.TourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,9 @@ import java.util.Optional;
 @RequestMapping(value = "api/v1/tour")
 public class TourController {
 
-    private final AccountServiceImpl accountService;
-    private final TourServiceImpl tourService;
-    private final TourDetailsServiceImpl tourDetailsService;
-    private final PlanTourServiceImpl planTourService;
+    private final AccountService accountService;
+    private final TourService tourService;
+    private final PlanTourService planTourService;
 
     @GetMapping("/all")
     public ResponseEntity<Object> findAll() {
@@ -90,11 +88,6 @@ public class TourController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/details/{id}")
-    public ResponseEntity<Object> findByToudeTails(@PathVariable("id") Long id) {
-        return tourDetailsService.findByTourDetails(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
     @GetMapping("/plantour/{id}")
     public ResponseEntity<Object> findByPlanTour(@PathVariable("id") Long id) {

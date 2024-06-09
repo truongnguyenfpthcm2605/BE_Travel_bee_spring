@@ -4,16 +4,15 @@ import com.travelbee.app.dto.response.Message;
 import com.travelbee.app.enities.Access;
 import com.travelbee.app.enities.Voucher;
 import com.travelbee.app.exception.NotfoundException;
-import com.travelbee.app.service.impl.AccessServiceImpl;
-import com.travelbee.app.service.impl.TourServiceImpl;
-import com.travelbee.app.service.impl.VoucherServiceImpl;
+import com.travelbee.app.service.AccessService;
+import com.travelbee.app.service.TourService;
+import com.travelbee.app.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final TourServiceImpl tourService;
-    private final VoucherServiceImpl voucherService;
-    private final AccessServiceImpl accessService;
+    private final TourService tourService;
+    private final VoucherService voucherService;
+    private final AccessService accessService;
 
     @GetMapping("")
     public ResponseEntity<Message> home() {
