@@ -16,6 +16,9 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     @Query("select count(o) from Tour  o")
     Integer countTour();
 
+    @Query("select o from Tour o where o.isactive =true  order by o.createdate desc ")
+    List<Tour> findAllActive();
+
 
 
 }
