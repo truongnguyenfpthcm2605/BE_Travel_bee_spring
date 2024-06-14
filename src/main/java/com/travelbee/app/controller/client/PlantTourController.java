@@ -30,7 +30,8 @@ public class PlantTourController {
         planTour.setUpdatedate(new Date());
         planTour.setStardate(plantTourDTO.getStartDate());
         planTour.setEnddate(plantTourDTO.getEndDate());
-        planTour.setTour(tourService.findById(plantTourDTO.getTourId()).get());
+        planTour.setDescription(plantTourDTO.getDescription());
+        planTour.setTour(tourService.findById(plantTourDTO.getTourId()+1).get());
         planTour.setAccount(accountService.findByEmail(plantTourDTO.getEmail()).get());
         return ResponseEntity.ok(planTourService.save(planTour));
 

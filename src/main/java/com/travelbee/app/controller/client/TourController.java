@@ -30,7 +30,7 @@ public class TourController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> findById(@PathVariable() Long id) {
         return tourService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
