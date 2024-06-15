@@ -2,15 +2,14 @@ package com.travelbee.app.controller.client;
 
 import com.travelbee.app.dto.request.PlantTourDTO;
 import com.travelbee.app.enities.PlanTour;
+import com.travelbee.app.exception.NotfoundException;
 import com.travelbee.app.service.PlanTourService;
 import com.travelbee.app.service.TourService;
 import com.travelbee.app.service.impl.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -35,5 +34,19 @@ public class PlantTourController {
         planTour.setAccount(accountService.findByEmail(plantTourDTO.getEmail()).get());
         return ResponseEntity.ok(planTourService.save(planTour));
 
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody PlantTourDTO plantTourDTO){
+        PlanTour planTour = planTourService.findById(id).orElseThrow(() ->  new NotfoundException("Not found plant tour"));
+        planTour.setStardate(plantTourDTO.getStartDate());
+        planTour.setEnddate(plantTourDTO.getEndDate());
+        planTour.setDescription(plantTourDTO.getDescription());
+        return ResponseEntity.ok(planTourService.update(planTour));
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Object> findById(@PathVariable Long id){
+        return planTourService.findById(id).<ResponseEntity<Object>>map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
