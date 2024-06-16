@@ -15,7 +15,7 @@ public class AsynConfig implements AsyncConfigurer {
         taskExecutor.setCorePoolSize(4);
         taskExecutor.setMaxPoolSize(4);
         taskExecutor.setQueueCapacity(50);
-        taskExecutor.setThreadNamePrefix("Thread Aysnc-: ");
+        taskExecutor.setThreadNamePrefix("Thread Async-: ");
         taskExecutor.initialize();
         return taskExecutor;
     }
